@@ -2,6 +2,14 @@
 #include "ImGuiManager.h"
 #include <cassert>
 
+Player::~Player() {
+	//弾のデストラクタ
+	for (PlayerBullet* bullet : bullets_) {
+
+		delete bullet;
+	}
+}
+
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	// ヌルじゃないか確認
 	assert(model);
@@ -70,11 +78,15 @@ void Player::Update() {
 	// 攻撃処理呼び出し
 	Attack();
 
-	if (bullet_) {
+	/* if (bullet_) {
 		// 弾が呼び出されている時に
 		bullet_->Update();
-	}
+	}*/
 
+	for (PlayerBullet* bullet : bullets_) {
+
+		bullet->Update();
+	}
 	// ImGui
 	// 窓
 	ImGui::SetNextWindowPos({0, 0});
@@ -93,9 +105,14 @@ void Player::Draw(ViewProjection viewprojection) {
 
 	model_->Draw(worldTransform_, viewprojection, textuerHandle_);
 
-	if (bullet_) {
+	/* if (bullet_) {
 
 		bullet_->Draw(viewprojection);
+	}*/
+
+	for (PlayerBullet*bullet : bullets_) {
+
+		bullet->Draw(viewprojection);
 	}
 };
 
@@ -106,6 +123,7 @@ void Player::Attack() {
 		newBullet->Initialize(model_, worldTransform_.translation_);
 
 		// 弾を登録する
-		bullet_ = newBullet;
+		//bullet_ = newBullet;
+		bullets_.push_back(newBullet);
 	}
 };

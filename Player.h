@@ -4,9 +4,14 @@
 #include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <list>
 
 class Player {
 public:
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Player();
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -37,5 +42,7 @@ private:
 	// キーボード入力
 	Input* input_ = nullptr;
 
-	PlayerBullet* bullet_ = nullptr;
+	//弾
+	//PlayerBullet* bullet_ = nullptr;
+	std::list<PlayerBullet*> bullets_;
 };
