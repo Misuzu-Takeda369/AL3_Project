@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Audio.h"
-#include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
+#include "Player.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
@@ -41,33 +41,22 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	// モデル用
-	uint32_t textureHandle_ = 0;
-	Model* model_ = nullptr;
-
-	// スプライト用
-	uint32_t textureHandle1_ = 0;
-	Sprite* sprite_ = nullptr;
-
-	// サウンドデータ
-	uint32_t soundDatehandle_ = 0;
-
-	float inputFloat3[3] = {0, 0, 0};
-
-	// ワールドトランスフォーム
-	WorldTransform worldTransform_;
-	// ビュープロジェクション
-	ViewProjection viewProjection_;
-
-	// デバックカメラ
-	DebugCamera* debugCamera_ = nullptr;
-
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
+	// テクスチャハンドル
+	uint32_t textuerHandle_ = 0;
+	// モデル
+	Model* model_ = nullptr;
+
+	// ビュープロジェクション(ゲーム共通カメラ)
+	ViewProjection viewProjection_;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+
+	// 自分のキャラのデータ
+	Player* player_ = nullptr;
 };
