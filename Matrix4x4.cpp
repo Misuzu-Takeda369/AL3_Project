@@ -1,6 +1,6 @@
 ﻿#include "Matrix4x4.h"
 #define _USE_MATH_DEFINES
-#include <Math.h>
+#include <math.h>
 #include <iostream>
 
 Matrix4x4 MakeScalematrix(const Vector3& scale) {

@@ -1,9 +1,10 @@
 ﻿#include "Player.h"
 #include "ImGuiManager.h"
 #include <cassert>
+#include "calc.h"
 
 Player::~Player() {
-	//弾のデストラクタ
+	// 弾のデストラクタ
 	for (PlayerBullet* bullet : bullets_) {
 
 		delete bullet;
@@ -28,7 +29,20 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 void Player::Update() {
 
-	Vector3 move = {};
+#pragma region ですフラグでの弾の消滅
+
+	bullets_.remove_if([](PlayerBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+
+		return false;
+	});
+
+#pragma endregion
+
+	    Vector3 move = {};
 
 	const float kCharactorspeed = 0.2f;
 
@@ -79,8 +93,8 @@ void Player::Update() {
 	Attack();
 
 	/* if (bullet_) {
-		// 弾が呼び出されている時に
-		bullet_->Update();
+	    // 弾が呼び出されている時に
+	    bullet_->Update();
 	}*/
 
 	for (PlayerBullet* bullet : bullets_) {
@@ -107,10 +121,10 @@ void Player::Draw(ViewProjection viewprojection) {
 
 	/* if (bullet_) {
 
-		bullet_->Draw(viewprojection);
+	    bullet_->Draw(viewprojection);
 	}*/
 
-	for (PlayerBullet*bullet : bullets_) {
+	for (PlayerBullet* bullet : bullets_) {
 
 		bullet->Draw(viewprojection);
 	}
@@ -118,12 +132,18 @@ void Player::Draw(ViewProjection viewprojection) {
 
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
+		// 弾の速度
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
+
+		// 速度のベクトルを自機の向きに合わせて回転する
+		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 		// 弾を登録する
-		//bullet_ = newBullet;
+		// bullet_ = newBullet;
 		bullets_.push_back(newBullet);
 	}
 };
