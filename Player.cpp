@@ -35,6 +35,17 @@ void Player::Update() {
 	} else if (input_->PushKey(DIK_DOWN)) {
 		move.y -= kCharactorspeed;
 	}
+
+	// 回転
+	const float kRotSpeed = 0.02f;
+
+	// 押した方向回る
+	if (input_->PushKey(DIK_A)) {
+		worldTransform_.rotation_.y -= kRotSpeed;
+	} else if (input_->PushKey(DIK_D)) {
+		worldTransform_.rotation_.y += kRotSpeed;
+	}
+#pragma region 移動の計算
 	// 制限
 	// 制限座標
 	const float kMoveLimiteX = 20.0f;
@@ -54,6 +65,15 @@ void Player::Update() {
 	// 行列更新
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+#pragma endregion
+
+	// 攻撃処理呼び出し
+	Attack();
+
+	if (bullet_) {
+		// 弾が呼び出されている時に
+		bullet_->Update();
+	}
 
 	// ImGui
 	// 窓
@@ -72,4 +92,20 @@ void Player::Update() {
 void Player::Draw(ViewProjection viewprojection) {
 
 	model_->Draw(worldTransform_, viewprojection, textuerHandle_);
+
+	if (bullet_) {
+
+		bullet_->Draw(viewprojection);
+	}
+};
+
+void Player::Attack() {
+	if (input_->TriggerKey(DIK_SPACE)) {
+
+		PlayerBullet* newBullet = new PlayerBullet();
+		newBullet->Initialize(model_, worldTransform_.translation_);
+
+		// 弾を登録する
+		bullet_ = newBullet;
+	}
 };

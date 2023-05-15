@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Input.h"
 #include "Model.h"
+#include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
@@ -21,6 +22,8 @@ public:
 	/// </summary>
 	void Draw(ViewProjection viewprojection);
 
+	void Attack();
+
 private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)
 	WorldTransform worldTransform_;
@@ -33,4 +36,6 @@ private:
 
 	// キーボード入力
 	Input* input_ = nullptr;
+
+	PlayerBullet* bullet_ = nullptr;
 };
