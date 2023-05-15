@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Input.h"
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
@@ -29,4 +30,7 @@ private:
 
 	// テクスチャハンドル
 	uint32_t textuerHandle_ = 0u;
+
+	// キーボード入力
+	Input* input_ = nullptr;
 };

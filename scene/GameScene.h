@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Audio.h"
+#include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
@@ -59,4 +60,9 @@ private: // メンバ変数
 
 	// 自分のキャラのデータ
 	Player* player_ = nullptr;
+
+	// きゃめら
+	// デバッグカメラの挙動
+	bool isDebugCameraActive_ = false;
+	DebugCamera* debugCamera_ = nullptr;
 };

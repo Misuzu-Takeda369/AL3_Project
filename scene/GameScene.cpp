@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
 
@@ -7,7 +8,9 @@ GameScene::GameScene() {}
 GameScene::~GameScene() {
 
 	// 解放
+	delete player_;
 	delete model_;
+	delete debugCamera_;
 }
 
 void GameScene::Initialize() {
@@ -28,9 +31,36 @@ void GameScene::Initialize() {
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
 	player_->Initialize(model_, textuerHandle_);
+
+	// カメラ(ウィンドウの大きさにする)
+	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
+	//
+	AxisIndicator::GetInstance()->SetVisible(true);
+	//
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 }
 
-void GameScene::Update() { player_->Update(); }
+void GameScene::Update() {
+	player_->Update();
+
+	// スペースと＿が必要
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_0)) {
+		isDebugCameraActive_ = true;
+	}
+#endif // DEBUG
+
+	if (isDebugCameraActive_) {
+		debugCamera_->Update();
+
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} else {
+		viewProjection_.UpdateMatrix();
+	}
+}
 
 void GameScene::Draw() {
 
@@ -58,7 +88,6 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	// model_->Draw(worldTransform_,viewProjection_,textuerHandle_);
 	player_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
