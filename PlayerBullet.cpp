@@ -12,6 +12,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 
 	textureHandle_ = TextureManager::Load("white1x1.png");
 
+	//初期化と初期位置を貰う
 	world_.Initialize();
 	world_.translation_ = position;
 };
@@ -32,4 +33,7 @@ void PlayerBullet::Update()
 	world_.UpdateMatrix(); 
 };
 
-void PlayerBullet::Draw(ViewProjection& view) { model_->Draw(world_, view, textureHandle_); }
+void PlayerBullet::Draw(ViewProjection& view) {
+
+	model_->Draw(world_, view, textureHandle_);
+}

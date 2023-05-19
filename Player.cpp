@@ -16,7 +16,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	assert(model);
 	// 外から貰ってきたデータの受け渡し
 	model_ = model;
-	textuerHandle_ = textureHandle;
+	textureHandle_ = textureHandle;
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
 	worldTransform_.Initialize();
@@ -117,7 +117,7 @@ void Player::Update() {
 
 void Player::Draw(ViewProjection viewprojection) {
 
-	model_->Draw(worldTransform_, viewprojection, textuerHandle_);
+	model_->Draw(worldTransform_, viewprojection, textureHandle_);
 
 	/* if (bullet_) {
 

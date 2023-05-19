@@ -10,6 +10,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -48,7 +49,7 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 
 	// テクスチャハンドル
-	uint32_t textuerHandle_ = 0;
+	uint32_t textureHandle_ = 0;
 	// モデル
 	Model* model_ = nullptr;
 
@@ -60,6 +61,8 @@ private: // メンバ変数
 
 	// 自分のキャラのデータ
 	Player* player_ = nullptr;
+	//敵のデータ
+	Enemy* enemy_ = nullptr;
 
 	// きゃめら
 	// デバッグカメラの挙動

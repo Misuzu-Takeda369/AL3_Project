@@ -9,6 +9,7 @@ GameScene::~GameScene() {
 
 	// 解放
 	delete player_;
+	delete enemy_;
 	delete model_;
 	delete debugCamera_;
 }
@@ -19,7 +20,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	textuerHandle_ = TextureManager::Load("sample.png");
+	textureHandle_ = TextureManager::Load("sample.png");
 
 	// モデルを作りだす
 	model_ = Model::Create();
@@ -28,9 +29,11 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	// 自キャラを作る(ゲーム上に写るようにする)
 	player_ = new Player();
+	enemy_ = new Enemy();
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
-	player_->Initialize(model_, textuerHandle_);
+	player_->Initialize(model_, textureHandle_);
+	enemy_->Initialize(model_);
 
 	// カメラ(ウィンドウの大きさにする)
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -42,6 +45,7 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	player_->Update();
+	enemy_->Update();
 
 	// スペースと＿が必要
 #ifdef _DEBUG
@@ -89,6 +93,7 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	player_->Draw(viewProjection_);
+	enemy_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
