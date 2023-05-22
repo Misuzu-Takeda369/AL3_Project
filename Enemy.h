@@ -2,10 +2,14 @@
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <list>
+#include "EnemyBullet.h"
 
 class Enemy {
 
 public:
+
+	~Enemy();
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -29,6 +33,19 @@ public:
 	/// 離れる時の行動
 	/// </summary>
 	void LeaveMove();
+	/// <summary>
+	/// 弾発射
+	/// </summary>
+	void Fire();
+	/// <summary>
+	/// 接近フェーズ初期化
+	/// </summary>
+	void ApproachInt();
+
+	/// <summary>
+	/// 発射間隔(60フレーム毎に)
+	/// </summary>
+	static const int kFireInterval = 60;
 
 private:
 	// ワールドトランスフォーム(敵に移動するカメラ個体ごと)
@@ -48,4 +65,9 @@ private:
 	//フェーズ(初期化もして置く)
 	Phase phase_ = Enemy::Phase::Approach;
 
+	//弾(プレイヤーと同じようにリスト化しとく)
+	std::list<EnemyBullet*> bullets_;
+
+	//発射タイマー
+	int32_t fireTimer_ = 0;
 };
