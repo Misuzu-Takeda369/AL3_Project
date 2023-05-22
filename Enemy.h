@@ -21,6 +21,15 @@ public:
 	/// </summary>
 	void Draw(ViewProjection viewprojection);
 
+	/// <summary>
+	/// 接近時の行動
+	/// </summary>
+	void ApproachMove();
+	/// <summary>
+	/// 離れる時の行動
+	/// </summary>
+	void LeaveMove();
+
 private:
 	// ワールドトランスフォーム(敵に移動するカメラ個体ごと)
 	WorldTransform worldTransform_;
@@ -31,5 +40,12 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 
+	enum class Phase {
+		Approach, // 接近する
+		Leave     // 離れる
+	};
+
+	//フェーズ(初期化もして置く)
+	Phase phase_ = Enemy::Phase::Approach;
 
 };
