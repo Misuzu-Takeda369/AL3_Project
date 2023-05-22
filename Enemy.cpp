@@ -12,6 +12,7 @@ void Enemy::Initialize(Model* model) {
 	textureHandle_ = TextureManager::Load("Pbase.png");
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
+	worldTransform_.translation_={0.0f, 0.0f, 20.0f};
 	worldTransform_.Initialize();
 	
 }
@@ -75,7 +76,7 @@ void Enemy::ApproachMove() {
 	worldTransform_.translation_.z += move.z;
 	
 
-	if (worldTransform_.translation_.z < -20.0f) {
+	if (worldTransform_.translation_.z < 0.0f) {
 
 		phase_ = Enemy::Phase::Leave;
 	}
@@ -84,10 +85,10 @@ void Enemy::ApproachMove() {
 void Enemy::LeaveMove() {
 	Vector3 move = {};
 
-	const float kCharactorspeed = 0.2f;
+	const float kCharactorspeed = -0.2f;
 
 	// 入力処理
-	move.x -= kCharactorspeed;
+	move.x += kCharactorspeed;
 	move.y -= kCharactorspeed;
 
 	// 敵の移動フェーズ毎の行動
