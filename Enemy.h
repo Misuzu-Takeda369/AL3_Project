@@ -5,6 +5,9 @@
 #include <list>
 #include "EnemyBullet.h"
 
+//前方宣言
+class Player;
+
 class Enemy {
 
 public:
@@ -47,6 +50,11 @@ public:
 	/// </summary>
 	static const int kFireInterval = 60;
 
+	void SetPlayer(Player* player) { player_ = player; };
+
+	//ワールド座標
+	Vector3 GetWorldPosition();
+
 private:
 	// ワールドトランスフォーム(敵に移動するカメラ個体ごと)
 	WorldTransform worldTransform_;
@@ -70,4 +78,6 @@ private:
 
 	//発射タイマー
 	int32_t fireTimer_ = 0;
+
+	Player* player_ = nullptr;
 };

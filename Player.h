@@ -6,6 +6,7 @@
 #include "WorldTransform.h"
 #include <list>
 
+
 class Player {
 public:
 	/// <summary>
@@ -28,6 +29,8 @@ public:
 	void Draw(ViewProjection viewprojection);
 
 	void Attack();
+
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)

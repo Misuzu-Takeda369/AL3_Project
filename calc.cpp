@@ -10,3 +10,11 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
 
 	return result;
 }
+
+Vector3 dir(const float& x, const float& y, const float& z) { 
+	float length = sqrtf(x * x + y * y + z * z); 
+
+	Vector3 dir = {x / length, y / length, z / length};
+
+	return dir;
+}

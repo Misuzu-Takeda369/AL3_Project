@@ -35,6 +35,8 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_);
 	enemy_->Initialize(model_);
 
+	enemy_->SetPlayer(player_);
+
 	// カメラ(ウィンドウの大きさにする)
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
 	//
