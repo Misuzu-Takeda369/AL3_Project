@@ -158,3 +158,8 @@ Vector3 Player::GetWorldPosition() {
 
 	return worldPos;
 }
+
+// 当たったことが伝わったらこっちで処理する関数
+void Player::OnCollision() {
+	//反応しない
+}

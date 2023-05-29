@@ -20,6 +20,11 @@ public:
 	/// </summary>
 	bool IsDead() const { return isDead_;  };
 
+	// 当たったことが伝わったらこっちで処理する関数
+	void OnCollision();
+
+	Vector3 GetWorldPosition();
+
 private:
 	WorldTransform world_;
 	// モデル

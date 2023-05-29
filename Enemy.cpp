@@ -19,7 +19,7 @@ void Enemy::Initialize(Model* model) {
 	textureHandle_ = TextureManager::Load("Pbase.png");
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
-	worldTransform_.translation_ = {20.0f, 0.0f, 40.0f};
+	worldTransform_.translation_ = {20.0f, 0.0f, 140.0f};
 	worldTransform_.Initialize();
 
 	// 接近フェーズ初期化
@@ -43,6 +43,18 @@ void Enemy::Update() {
 
 	//Fire();
 
+#pragma region ですフラグでの弾の消滅
+
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+
+		return false;
+	});
+
+#pragma endregion
 
 
 	switch (phase_) {
@@ -172,4 +184,9 @@ Vector3 Enemy::GetWorldPosition() {
 	    worldPos.z = worldTransform_.translation_.z;
 
 	    return worldPos;
+}
+
+// 当たったことが伝わったらこっちで処理する関数
+void Enemy::OnCollision() {
+	//反応しない
 }

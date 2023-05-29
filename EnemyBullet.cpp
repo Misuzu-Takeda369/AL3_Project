@@ -33,3 +33,17 @@ void EnemyBullet::Update() {
 };
 
 void EnemyBullet::Draw(ViewProjection& view) { model_->Draw(world_, view, textureHandle_); }
+
+// 当たったことが伝わったらこっちで処理する関数
+void EnemyBullet::OnCollision() { isDead_ = true; }
+
+Vector3 EnemyBullet::GetWorldPosition() {
+	// ワールドを入れる奴
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = world_.translation_.x;
+	worldPos.y = world_.translation_.y;
+	worldPos.z = world_.translation_.z;
+
+	return worldPos;
+}

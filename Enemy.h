@@ -55,6 +55,12 @@ public:
 	//ワールド座標
 	Vector3 GetWorldPosition();
 
+	// 当たったことが伝わったらこっちで処理する関数
+	void OnCollision();
+
+	//弾リストのげったー
+	const std::list<EnemyBullet*>& GetBullet() { return bullets_; };
+
 private:
 	// ワールドトランスフォーム(敵に移動するカメラ個体ごと)
 	WorldTransform worldTransform_;
