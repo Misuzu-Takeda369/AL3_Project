@@ -41,7 +41,18 @@ void Enemy::Update() {
 
 	//Fire();
 
+	#pragma region ですフラグでの弾の消滅
 
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+
+		return false;
+	});
+
+#pragma endregion
 
 	switch (phase_) {
 	case Enemy::Phase::Approach:
