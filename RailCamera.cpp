@@ -19,6 +19,7 @@ void RailCamera::Initialize(Model* model) {
 void RailCamera::Update() 
 {
 
+
 #pragma region ImGui
 	// 窓
 	ImGui::SetNextWindowPos({0, 0});
@@ -40,12 +41,24 @@ void RailCamera::Update()
 #pragma endregion
 
 	//アフェインに全部まとめるか(次がworldTransform_.matWorldなのでその辺?)
-	worldTransform_.UpdateMatrix();
+	Vector3 move = {};
+
+	const float kCharactorspeed = 0.2f;
+	
+	move.x -= kCharactorspeed;
+	
+	// 移動
+	worldTransform_.translation_.x += move.x;
+	worldTransform_.translation_.y += move.y;
+	worldTransform_.translation_.z += move.z;
+	
+	// 行列更新
+	worldTransform_.matWorld_ = MakeAffineMatrix( worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 	//ビュープロジェクションは逆行列
 	viewProjection_.matView = Inverse(worldTransform_.matWorld_);
 }
 
-void RailCamera::Draw() 
-{
-
+void RailCamera::Draw()
+{ 
+	model_->Draw(worldTransform_, viewProjection_);
 }
