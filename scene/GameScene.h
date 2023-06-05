@@ -59,6 +59,9 @@ private: // メンバ変数
 	// モデル
 	Model* model_ = nullptr;
 
+	//スカイドーム用モデル
+	Model* modelSkydome_ = 0;
+
 	// ビュープロジェクション(ゲーム共通カメラ)
 	ViewProjection viewProjection_;
 	/// <summary>
@@ -71,6 +74,8 @@ private: // メンバ変数
 	Enemy* enemy_ = nullptr;
 	//スカイドーム
 	Skydome* skydome_ = nullptr;
+
+
 
 	// きゃめら
 	// デバッグカメラの挙動

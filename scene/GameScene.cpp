@@ -13,6 +13,8 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete model_;
 	delete debugCamera_;
+
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -25,6 +27,7 @@ void GameScene::Initialize() {
 
 	// モデルを作りだす
 	model_ = Model::Create();
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	// ビュープロジェクション初期化(ゲーム共通カメラ)
 	viewProjection_.Initialize();
@@ -32,7 +35,6 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	enemy_ = new Enemy();
 	skydome_ = new Skydome();
-	skydome_ = Model::CreateFromOBJ("skydome", true);
 
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
