@@ -10,6 +10,7 @@ GameScene::~GameScene() {
 	// 解放
 	delete player_;
 	delete enemy_;
+	delete skydome_;
 	delete model_;
 	delete debugCamera_;
 }
@@ -30,6 +31,9 @@ void GameScene::Initialize() {
 	// 自キャラを作る(ゲーム上に写るようにする)
 	player_ = new Player();
 	enemy_ = new Enemy();
+	skydome_ = new Skydome();
+	skydome_ = Model::CreateFromOBJ("skydome", true);
+
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
 	player_->Initialize(model_, textureHandle_);
@@ -48,6 +52,7 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	player_->Update();
 	enemy_->Update();
+	skydome_->Update();
 
 	//当たり判定
 	CheckAllCollisions();
@@ -99,6 +104,7 @@ void GameScene::Draw() {
 	/// </summary>
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
+	skydome_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

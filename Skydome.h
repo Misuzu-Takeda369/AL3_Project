@@ -24,7 +24,7 @@ public:
 	/// <summary>
 	/// 描写
 	/// </summary>
-	void Draw();
+	void Draw(ViewProjection viewprojection);
 
 
 private:
@@ -35,4 +35,6 @@ private:
 	//モデルデータ
 	Model* model_ = nullptr;
 
+	///テクスチャハンドrう
+	uint32_t textureHandle_ = 0u;
 };

@@ -11,6 +11,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Enemy.h"
+#include "Skydome.h"
 
 /// <summary>
 /// ゲームシーン
@@ -68,6 +69,8 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 	//敵のデータ
 	Enemy* enemy_ = nullptr;
+	//スカイドーム
+	Skydome* skydome_ = nullptr;
 
 	// きゃめら
 	// デバッグカメラの挙動
