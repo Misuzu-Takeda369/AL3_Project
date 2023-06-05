@@ -38,12 +38,17 @@ void GameScene::Initialize() {
 	enemy_ = new Enemy();
 	skydome_ = new Skydome();
 
+	//レールカメラのインクリース的な名前の奴
+	railCamera_ = new RailCamera();
+
+
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
 	player_->Initialize(model_, textureHandle_);
 	enemy_->Initialize(model_);
 	skydome_->Initialize(modelSkydome_);
-
+	//プレイヤーの位置？を代入する？
+	railCamera_->Initialize();
 	enemy_->SetPlayer(player_);
 
 	// カメラ(ウィンドウの大きさにする)
@@ -110,6 +115,8 @@ void GameScene::Draw() {
 	player_->Draw(viewProjection_);
 	enemy_->Draw(viewProjection_);
 	skydome_->Draw(viewProjection_);
+
+	railCamera_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion

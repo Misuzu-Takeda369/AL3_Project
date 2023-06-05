@@ -12,6 +12,7 @@
 #include "WorldTransform.h"
 #include "Enemy.h"
 #include "Skydome.h"
+#include "RailCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -81,4 +82,8 @@ private: // メンバ変数
 	// デバッグカメラの挙動
 	bool isDebugCameraActive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
+
+	//レールカメラのデータ
+	RailCamera* railCamera_ = nullptr;
+
 };
