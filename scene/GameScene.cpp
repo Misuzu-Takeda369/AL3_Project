@@ -48,7 +48,7 @@ void GameScene::Initialize() {
 	enemy_->Initialize(model_);
 	skydome_->Initialize(modelSkydome_);
 	//プレイヤーの位置？を代入する？
-	railCamera_->Initialize();
+	railCamera_->Initialize(model_);
 	enemy_->SetPlayer(player_);
 
 	// カメラ(ウィンドウの大きさにする)
@@ -63,6 +63,8 @@ void GameScene::Update() {
 	player_->Update();
 	enemy_->Update();
 	skydome_->Update();
+
+	railCamera_->Update();
 
 	//当たり判定
 	CheckAllCollisions();

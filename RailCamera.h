@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(WorldTransform worldTransform, ViewProjection viewProjection);
+	void Initialize(Model* model);
 
 	/// <summary>
 	/// 更新
@@ -30,5 +30,8 @@ private:
 
 	/// ビュープロジェクション
 	ViewProjection viewProjection_;
+
+	// モデル
+	Model* model_ = nullptr;
 
 };
