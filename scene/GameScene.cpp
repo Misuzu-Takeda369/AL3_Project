@@ -30,6 +30,7 @@ void GameScene::Initialize() {
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	// ビュープロジェクション初期化(ゲーム共通カメラ)
+	//穴あきを防ぐ為の奴
 	viewProjection_.farZ = 200;
 	viewProjection_.Initialize();
 	// 自キャラを作る(ゲーム上に写るようにする)
