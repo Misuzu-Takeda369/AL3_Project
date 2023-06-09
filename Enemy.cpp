@@ -46,7 +46,9 @@ void Enemy::Update() {
 	
 	}*/
 
-	(this->*spFuncTable[0])();
+	//挙動呼び出し
+	(this->*spFuncTable[phaseNow])();
+
 	// 転送
 	worldTransform_.TransferMatrix();
 	// 行列更新
@@ -80,7 +82,7 @@ void Enemy::ApproachMove() {
 
 	if (worldTransform_.translation_.z < 0.0f) {
 
-		phase_ = Enemy::Phase::Leave;
+		phaseNow = 1;
 	}
 }
 
