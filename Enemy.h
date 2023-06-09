@@ -47,11 +47,12 @@ private:
 
 	//フェーズ(初期化もして置く)
 	Phase phase_ = Enemy::Phase::Approach;
-
+	
 	/// <summary>
 	/// メンバ関数のポインターのテーブル
 	/// イメージはEnemyクラスにある関数を配列(ポインタ)で扱う
 	/// </summary>
 	static void (Enemy::*spFuncTable[])();
 
+	size_t phaseNow = static_cast<size_t>(phase_);
 };

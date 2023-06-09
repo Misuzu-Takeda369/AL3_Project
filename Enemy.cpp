@@ -33,7 +33,7 @@ void Enemy::Update() {
 	worldTransform_.translation_.z += move.z;
 	*/
 
-	switch (phase_) {
+	/* switch (phase_) {
 	case Enemy::Phase::Approach:
 		//移動関数入れる
 		ApproachMove();
@@ -44,7 +44,9 @@ void Enemy::Update() {
 		LeaveMove();
 		break;
 	
-	}
+	}*/
+
+	(this->*spFuncTable[0])();
 	// 転送
 	worldTransform_.TransferMatrix();
 	// 行列更新
@@ -96,3 +98,9 @@ void Enemy::LeaveMove() {
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
 }
+
+ void (Enemy::*Enemy::spFuncTable[])()
+ {
+	 &Enemy::ApproachMove, //近づく　0
+		 &Enemy::LeaveMove //離れる  1
+ };
