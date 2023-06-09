@@ -54,5 +54,6 @@ private:
 	/// </summary>
 	static void (Enemy::*spFuncTable[])();
 
+	//現在の
 	size_t phaseNow = static_cast<size_t>(phase_);
 };
