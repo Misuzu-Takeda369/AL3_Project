@@ -126,17 +126,20 @@ void Enemy::LeaveMove() {
 
 void Enemy::Fire() {
 	
+		assert(player_);
 		// 弾の速度
-		const float kBulletSpeed = -2.0f;
+		const float kBulletSpeed = -1.0f;
 	/*
 		Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
 	*/
 	   
+		//自ワールド　プレイヤーの位置を取得
 		Vector3 playerVelocity = player_->GetWorldPosition();
+		//敵のワールド　敵の位置を取得
 		Vector3 enemyVelocity = GetWorldPosition();
 
 #pragma region ベクトル計算
-
+		//敵-自の差分ベクトル
 	    float peVelocityX = enemyVelocity.x - playerVelocity.x;
 	    float peVelocityY = enemyVelocity.y - playerVelocity.y;
 	    float peVelocityZ = enemyVelocity.z - playerVelocity.z;
@@ -145,12 +148,16 @@ void Enemy::Fire() {
 #pragma endregion 
 		//正規化
 	    Vector3 Unk= dir(peVelocityX, peVelocityY, peVelocityZ);
-		//(正規化)計算してなぶち込む
-	    Vector3 clacvelocity = {kBulletSpeed * Unk.x, kBulletSpeed * Unk.y, kBulletSpeed * Unk.z};
+		//(正規化)計算してなぶち込む(ベクトルの長さを早さに合わせる)
+	    Vector3 clacvelocity = {
+			kBulletSpeed * Unk.x, 
+			kBulletSpeed * Unk.y, 
+			kBulletSpeed * Unk.z
+		};
 	    Vector3 velocity(clacvelocity);
 
 		EnemyBullet* newBullet = new EnemyBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+	    newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 		// 弾を登録する
 		// bullet_ = newBullet;
@@ -173,3 +180,5 @@ Vector3 Enemy::GetWorldPosition() {
 
 	    return worldPos;
 }
+
+
