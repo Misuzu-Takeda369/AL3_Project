@@ -49,7 +49,7 @@ void GameScene::Update() {
 	player_->Update();
 	enemy_->Update();
 
-	//当たり判定
+	//当たり判定関連
 	CheckAllCollisions();
 
 	// スペースと＿が必要
@@ -116,6 +116,7 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+
 
 void GameScene::CheckAllCollisions() {
 	//2つのぶつの座標
