@@ -65,6 +65,7 @@ void RailCamera::Update()
 	//ビュープロジェクションは逆行列
 	viewProjection_.matView = Inverse(worldTransform_.matWorld_);
 
+
 	viewProjection_.matView = GetViewProjection().matView;
 	viewProjection_.matProjection = GetViewProjection().matProjection;
 	// ビュープロジェクション行列の転送
