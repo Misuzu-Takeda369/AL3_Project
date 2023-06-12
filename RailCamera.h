@@ -22,6 +22,13 @@ public:
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// ビュープロジェクションを取得(レールカメラにも)
+	/// </summary>
+	/// <returns>ビュープロジェクション</returns>
+	ViewProjection& GetViewProjection() { return viewProjection_; }
+
+	//ViewProjection& GetViewPro
 
 private:
 

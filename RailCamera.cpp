@@ -4,6 +4,7 @@
 void RailCamera::Initialize(Vector3 trans, Vector3 rot) { 
 
 	//ワールドトランスフォームの引数
+	worldTransform_.Initialize();
 	worldTransform_.translation_ = trans;
 	worldTransform_.rotation_ = rot;
 
@@ -40,7 +41,7 @@ void RailCamera::Update()
 #pragma region 移動処理
 	//アフェインに全部まとめるか(次がworldTransform_.matWorldなのでその辺?)
 	Vector3 move = {0.0f,0.0f,0.0f};
-	Vector3 rot = {0.0f,0.0f,0.0f};
+	Vector3 rot = {0.0f,0.001f,0.0f};
 
 	
 	// 移動
@@ -53,12 +54,22 @@ void RailCamera::Update()
 	worldTransform_.rotation_.y += rot.y;
 	worldTransform_.rotation_.z += rot.z;
 
+	worldTransform_.scale_.x += 0.0f;
+	worldTransform_.scale_.y += 0.0f;
+	worldTransform_.scale_.z += 0.0f;
+
 #pragma endregion
 
 	// 行列更新(ここが動かない原因知らん)
 	worldTransform_.UpdateMatrix();
 	//ビュープロジェクションは逆行列
 	viewProjection_.matView = Inverse(worldTransform_.matWorld_);
+
+	viewProjection_.matView = GetViewProjection().matView;
+	viewProjection_.matProjection = GetViewProjection().matProjection;
+	// ビュープロジェクション行列の転送
+	viewProjection_.TransferMatrix();
+
 }
 
 void RailCamera::Draw()
