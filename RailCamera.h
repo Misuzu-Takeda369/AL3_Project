@@ -26,7 +26,8 @@ public:
 	/// ビュープロジェクションを取得(レールカメラにも)
 	/// </summary>
 	/// <returns>ビュープロジェクション</returns>
-	ViewProjection& GetViewProjection() { return viewProjection_; }
+	const ViewProjection& GetViewProjection() { return viewProjection_; }
+	const WorldTransform& GetWorldProjection() { return worldTransform_; };
 
 	//ViewProjection& GetViewPro
 

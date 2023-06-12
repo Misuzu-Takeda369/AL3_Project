@@ -44,12 +44,17 @@ void GameScene::Initialize() {
 
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
-	player_->Initialize(model_, textureHandle_);
+	// 自キャラとレールカメラの親子関係を結ぶ
+	Vector3 playerPosition(0,0,5);
+	player_->Initialize(model_, textureHandle_, playerPosition);
+	player_->SetParent(&railCamera_->GetWorldProjection());
+
 	enemy_->Initialize(model_);
 	skydome_->Initialize(modelSkydome_);
 	//プレイヤーの位置？を代入する？
 	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f,0.0f,0.0f});
 	enemy_->SetPlayer(player_);
+
 
 	// カメラ(ウィンドウの大きさにする)
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
@@ -85,8 +90,15 @@ void GameScene::Update() {
 		viewProjection_.TransferMatrix();
 	} 
 	else {
-		viewProjection_.UpdateMatrix();
+		// 描写に反映
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
 	}
+
+
+	
 }
 
 void GameScene::Draw() {

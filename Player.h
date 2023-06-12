@@ -16,7 +16,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle,Vector3 pos);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -37,6 +37,12 @@ public:
 
 	// 弾リストのげったー
 	const std::list<PlayerBullet*>& GetBullet() { return bullets_; };
+
+	/// <summary>
+	/// 親となるワールドトランスフォーム(今回はカメラ)
+	/// </summary>
+	void SetParent(const WorldTransform * parent);
+	
 
 private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)

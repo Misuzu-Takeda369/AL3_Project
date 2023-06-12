@@ -11,7 +11,7 @@ Player::~Player() {
 	}
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
+void Player::Initialize(Model* model, uint32_t textureHandle,  Vector3 pos) {
 	// ヌルじゃないか確認
 	assert(model);
 	// 外から貰ってきたデータの受け渡し
@@ -20,7 +20,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
 	worldTransform_.Initialize();
-
+	worldTransform_.translation_ = pos;  
 	// 外から受け取ったのdelete不可能
 
 	// シングルトンインスタンス取得
@@ -82,11 +82,9 @@ void Player::Update() {
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
-	// 転送
-	worldTransform_.TransferMatrix();
+
 	// 行列更新
-	worldTransform_.matWorld_ = MakeAffineMatrix(
-	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	worldTransform_.UpdateMatrix();
 #pragma endregion
 
 	// 攻撃処理呼び出し
@@ -162,4 +160,9 @@ Vector3 Player::GetWorldPosition() {
 // 当たったことが伝わったらこっちで処理する関数
 void Player::OnCollision() {
 	//反応しない
+}
+
+void Player::SetParent(const WorldTransform* parent) {
+	//親子関係を結ぶ(プレイヤーの位置とカメラ)
+	worldTransform_.parent_ = parent;
 }
