@@ -82,7 +82,6 @@ void Player::Update() {
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
-
 	// 行列更新
 	worldTransform_.UpdateMatrix();
 #pragma endregion
@@ -150,10 +149,9 @@ Vector3 Player::GetWorldPosition() {
 	//ワールドを入れる奴
 	Vector3 worldPos;
 	//ワールド行列の平行移動成分を取得(ワールド座標)
-	worldPos.x = worldTransform_.translation_.x;
-	worldPos.y = worldTransform_.translation_.y;
-	worldPos.z = worldTransform_.translation_.z;
-
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
 	return worldPos;
 }
 
