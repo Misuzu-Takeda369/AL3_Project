@@ -1,5 +1,4 @@
 ﻿#include "RailCamera.h"
-#include "calc.h"
 #include "ImGuiManager.h"
 
 void RailCamera::Initialize(Vector3 trans, Vector3 rot) { 
@@ -38,20 +37,26 @@ void RailCamera::Update()
 
 #pragma endregion
 
+#pragma region 移動処理
 	//アフェインに全部まとめるか(次がworldTransform_.matWorldなのでその辺?)
-	Vector3 move = {};
+	Vector3 move = {0.0f,0.0f,0.0f};
+	Vector3 rot = {0.0f,0.0f,0.0f};
 
-	const float kCharactorspeed = 0.2f;
-	
-	move.x -= kCharactorspeed;
 	
 	// 移動
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
 	
-	// 行列更新
-	worldTransform_.matWorld_ = MakeAffineMatrix( worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	//角度
+	worldTransform_.rotation_.x += rot.x;
+	worldTransform_.rotation_.y += rot.y;
+	worldTransform_.rotation_.z += rot.z;
+
+#pragma endregion
+
+	// 行列更新(ここが動かない原因知らん)
+	worldTransform_.UpdateMatrix();
 	//ビュープロジェクションは逆行列
 	viewProjection_.matView = Inverse(worldTransform_.matWorld_);
 }
