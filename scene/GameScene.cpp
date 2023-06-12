@@ -13,8 +13,8 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete model_;
 	delete debugCamera_;
-
 	delete modelSkydome_;
+	delete railCamera_;
 }
 
 void GameScene::Initialize() {
@@ -48,7 +48,7 @@ void GameScene::Initialize() {
 	enemy_->Initialize(model_);
 	skydome_->Initialize(modelSkydome_);
 	//プレイヤーの位置？を代入する？
-	railCamera_->Initialize(model_);
+	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f,0.0f,0.0f});
 	enemy_->SetPlayer(player_);
 
 	// カメラ(ウィンドウの大きさにする)

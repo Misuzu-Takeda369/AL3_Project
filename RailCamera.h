@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model);
+	void Initialize(Vector3 trans, Vector3 rot);
 
 	/// <summary>
 	/// 更新
@@ -28,10 +28,8 @@ private:
 	/// ワールド変換データ
 	WorldTransform worldTransform_;
 
-	/// ビュープロジェクション
+	/// ビュープロジェクション(この子は普段カメラに渡していたが今回はこの子自体がカメラなのでここに作成)
 	ViewProjection viewProjection_;
 
-	// モデル
-	Model* model_ = nullptr;
 
 };

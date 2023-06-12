@@ -2,15 +2,13 @@
 #include "calc.h"
 #include "ImGuiManager.h"
 
-void RailCamera::Initialize(Model* model) { 
+void RailCamera::Initialize(Vector3 trans, Vector3 rot) { 
 
-	// ヌルじゃないか確認
-	assert(model);
-	// 外から貰ってきたデータの受け渡し
-	model_ = model;
 	//ワールドトランスフォームの引数
-	worldTransform_ .translation_= {0.0f,0.0f,0.0f};
-	worldTransform_.rotation_ = {0.0f,0.0f,0.0f};
+	worldTransform_.translation_ = trans;
+	worldTransform_.rotation_ = rot;
+
+	//モデルを描写するわけではないのでワールドトランスフォームの初期化を書かなくて良い。
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -60,5 +58,5 @@ void RailCamera::Update()
 
 void RailCamera::Draw()
 { 
-	model_->Draw(worldTransform_, viewProjection_);
+	//model_->Draw(worldTransform_, viewProjection_);
 }
