@@ -9,12 +9,19 @@ GameScene::~GameScene() {
 
 	// 解放
 	delete player_;
-	delete enemy_;
+	for (Enemy* enemy: enemies_) {
+		delete enemy;
+	}
 	delete skydome_;
 	delete model_;
 	delete debugCamera_;
 	delete modelSkydome_;
 	delete railCamera_;
+
+	for (EnemyBullet* bullet : enemybullets_) {
+
+		delete bullet;
+	}
 }
 
 void GameScene::Initialize() {
@@ -35,7 +42,9 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	// 自キャラを作る(ゲーム上に写るようにする)
 	player_ = new Player();
-	enemy_ = new Enemy();
+	for (Enemy* enemy : enemies_) {
+		enemy = new Enemy();
+	}
 	skydome_ = new Skydome();
 
 	//レールカメラのインクリース的な名前の奴
@@ -49,11 +58,22 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldProjection());
 
-	enemy_->Initialize(model_);
+	//enemy_->Initialize(model_);
+	for (Enemy* enemy : enemies_) {
+		enemy->Initialize(model_);
+	}
+
 	skydome_->Initialize(modelSkydome_);
 	//プレイヤーの位置？を代入する？
 	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f,0.0f,0.0f});
-	enemy_->SetPlayer(player_);
+
+	for (Enemy* enemy : enemies_) {
+		enemy->SetPlayer(player_);
+		enemy->SetGameScene(this);
+	}
+
+	//enemy->SetPlayer(player_);
+	//enemy->SetGameScene(this);
 
 
 	// カメラ(ウィンドウの大きさにする)
@@ -66,10 +86,19 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	player_->Update();
-	enemy_->Update();
+	//enemy_->Update();
+	for (Enemy* enemy : enemies_) {
+		enemy->Update();
+	}
+
 	skydome_->Update();
 
 	railCamera_->Update();
+
+	for (EnemyBullet* bullet : enemybullets_) {
+
+		bullet->Update();
+	}
 
 	//当たり判定
 	CheckAllCollisions();
@@ -128,10 +157,20 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
 	player_->Draw(viewProjection_);
-	enemy_->Draw(viewProjection_);
+
+	//enemy_->Draw(viewProjection_);
+
+	for (Enemy* enemy : enemies_) {
+		enemy->Draw(viewProjection_);
+	}
 	skydome_->Draw(viewProjection_);
 
 	railCamera_->Draw();
+
+	for (EnemyBullet* bullet : enemybullets_) {
+
+		bullet->Draw(viewProjection_);
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -157,7 +196,7 @@ void GameScene::CheckAllCollisions() {
 	//playerの弾リストの取得
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullet();
 	//enemyの弾リストの取得
-	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullet();
+	const std::list<EnemyBullet*>& enemyBullets = GetBullet();
 
 #pragma region プレイヤーと敵の弾当たり判定
 	// 自キャラ座標
@@ -235,4 +274,10 @@ void GameScene::CheckAllCollisions() {
 	}
 #pragma endregion
 
+}
+
+void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet) 
+{
+	//リスト
+	enemybullets_.push_back(enemyBullet);
 }

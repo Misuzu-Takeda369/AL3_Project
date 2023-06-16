@@ -13,6 +13,8 @@
 #include "Enemy.h"
 #include "Skydome.h"
 #include "RailCamera.h"
+#include <list>
+#include "EnemyBullet.h"
 
 /// <summary>
 /// ゲームシーン
@@ -50,6 +52,15 @@ public: // メンバ関数
 	/// </summary>
 	void CheckAllCollisions();
 
+	/// <summary>
+	/// ゲームシーンに球を登録する
+	/// </summary>
+	/// <param name="enemyBullet"></param>
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
+	// 弾リストのげったー
+	const std::list<EnemyBullet*>& GetBullet() { return enemybullets_; };
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -71,8 +82,10 @@ private: // メンバ変数
 
 	// 自分のキャラのデータ
 	Player* player_ = nullptr;
-	//敵のデータ
-	Enemy* enemy_ = nullptr;
+	//敵のデータ(複数にする)
+	//Enemy* enemy_ = nullptr;
+	std::list<Enemy*> enemies_;
+
 	//スカイドーム
 	Skydome* skydome_ = nullptr;
 
@@ -85,5 +98,8 @@ private: // メンバ変数
 
 	//レールカメラのデータ
 	RailCamera* railCamera_ = nullptr;
+
+	// 弾(プレイヤーと同じようにリスト化しとく)
+	std::list<EnemyBullet*> enemybullets_;
 
 };

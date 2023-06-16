@@ -7,12 +7,11 @@
 
 //前方宣言
 class Player;
+class GameScene;
 
 class Enemy {
 
 public:
-
-
 
 	~Enemy();
 	/// <summary>
@@ -61,7 +60,9 @@ public:
 	void OnCollision();
 
 	//弾リストのげったー
-	const std::list<EnemyBullet*>& GetBullet() { return bullets_; };
+	//const std::list<EnemyBullet*>& GetBullet() { return bullets_; };
+
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; };
 
 private:
 	// ワールドトランスフォーム(敵に移動するカメラ個体ごと)
@@ -82,10 +83,13 @@ private:
 	Phase phase_ = Enemy::Phase::Approach;
 
 	//弾(プレイヤーと同じようにリスト化しとく)
-	std::list<EnemyBullet*> bullets_;
+	//std::list<EnemyBullet*> bullets_;
 
 	//発射タイマー
 	int32_t fireTimer_ = 0;
 
 	Player* player_ = nullptr;
+
+	//ゲームシーン
+	GameScene* gameScene_ = nullptr;
 };

@@ -5,10 +5,12 @@
 #include "Player.h"
 
 Enemy::~Enemy() {
+	/*
 	for (EnemyBullet* bullet : bullets_) {
 
 		delete bullet;
 	}
+	*/
 }
 void Enemy::Initialize(Model* model) {
 
@@ -43,9 +45,10 @@ void Enemy::Update() {
 
 	//Fire();
 
+	/*
 #pragma region ですフラグでの弾の消滅
 
-	bullets_.remove_if([](EnemyBullet* bullet) {
+	enemybullet.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
 			return true;
@@ -55,7 +58,7 @@ void Enemy::Update() {
 	});
 
 #pragma endregion
-
+*/
 
 	switch (phase_) {
 	case Enemy::Phase::Approach:
@@ -74,20 +77,23 @@ void Enemy::Update() {
 	worldTransform_.matWorld_ = MakeAffineMatrix(
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
+	/*
 	for (EnemyBullet* bullet : bullets_) {
 
 		bullet->Update();
 	}
+	*/
 }
 
 void Enemy::Draw(ViewProjection viewprojection) {
 
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);
-
+	/*
 	for (EnemyBullet* bullet : bullets_) {
 
 		bullet->Draw(viewprojection);
 	}
+	*/
 }
 
 void Enemy::ApproachMove() {
@@ -166,7 +172,7 @@ void Enemy::Fire() {
 
 		// 弾を登録する
 		// bullet_ = newBullet;
-		bullets_.push_back(newBullet);
+	    //enemyBullets.push_back(newBullet);
 	
 }
 
