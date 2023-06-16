@@ -12,6 +12,8 @@ class Enemy {
 
 public:
 
+
+
 	~Enemy();
 	/// <summary>
 	/// 初期化
