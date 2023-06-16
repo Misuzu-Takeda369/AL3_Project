@@ -128,11 +128,13 @@ void Player::Draw(ViewProjection viewprojection) {
 };
 
 void Player::Attack() {
+
 	if (input_->TriggerKey(DIK_SPACE)) {
 		// 弾の速度
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
 
+		//worldTransform_.translation_ = GetWorldPosition();
 		// 速度のベクトルを自機の向きに合わせて回転する
 		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 

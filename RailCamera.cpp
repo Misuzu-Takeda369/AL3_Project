@@ -40,8 +40,8 @@ void RailCamera::Update()
 
 #pragma region 移動処理
 	//アフェインに全部まとめるか(次がworldTransform_.matWorldなのでその辺?)
-	Vector3 move = {0.0f,0.0f,0.0f};
-	Vector3 rot = {0.0f,0.001f,0.0f};
+	Vector3 move = {0.1f,-0.01f,0.0f};
+	Vector3 rot = {0.0f,0.0f,0.0f};
 
 	
 	// 移動
