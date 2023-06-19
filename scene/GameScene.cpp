@@ -69,6 +69,7 @@ void GameScene::Initialize() {
 
 	for (Enemy* enemy : enemies_) {
 		enemy->SetPlayer(player_);
+		//現在のゲームシーン
 		enemy->SetGameScene(this);
 	}
 
@@ -163,6 +164,7 @@ void GameScene::Draw() {
 	for (Enemy* enemy : enemies_) {
 		enemy->Draw(viewProjection_);
 	}
+
 	skydome_->Draw(viewProjection_);
 
 	railCamera_->Draw();
@@ -226,26 +228,31 @@ void GameScene::CheckAllCollisions() {
 
 #pragma region プレイヤー弾と敵当たり判定
 	// 自キャラ座標
-	posA = enemy_->GetWorldPosition();
 
-	// プレイヤーと弾すべての当たり判定を判断する
-	for (PlayerBullet* bullet : playerBullets) {
-		posB = bullet->GetWorldPosition();
+	for (Enemy* enemy : enemies_) {
 
-		// 衝突判定
-		float MixAB = ((posB.x - posA.x) * (posB.x - posA.x)) +
-		              ((posB.y - posA.y) * (posB.y - posA.y)) +
-		              ((posB.z - posA.z) * (posB.z - posA.z));
+		posA = enemy->GetWorldPosition();
 
-		// 半径(仮)
-		float RadishMix = 20.0f;
-		// 当たってるか否か
-		if (MixAB <= RadishMix) {
-			enemy_->OnCollision();
+		// プレイヤーと弾すべての当たり判定を判断する
+		for (PlayerBullet* bullet : playerBullets) {
+			posB = bullet->GetWorldPosition();
 
-			bullet->OnCollision();
+			// 衝突判定
+			float MixAB = ((posB.x - posA.x) * (posB.x - posA.x)) +
+			              ((posB.y - posA.y) * (posB.y - posA.y)) +
+			              ((posB.z - posA.z) * (posB.z - posA.z));
+
+			// 半径(仮)
+			float RadishMix = 20.0f;
+			// 当たってるか否か
+			if (MixAB <= RadishMix) {
+				enemy->OnCollision();
+
+				bullet->OnCollision();
+			}
 		}
 	}
+	
 #pragma endregion
 
 #pragma region プレイヤー弾と敵の弾当たり判定
