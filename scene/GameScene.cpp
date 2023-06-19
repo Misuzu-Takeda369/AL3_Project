@@ -9,6 +9,7 @@ GameScene::~GameScene() {
 
 	// 解放
 	delete player_;
+
 	for (Enemy* enemy: enemies_) {
 		delete enemy;
 	}
@@ -42,14 +43,14 @@ void GameScene::Initialize() {
 	viewProjection_.Initialize();
 	// 自キャラを作る(ゲーム上に写るようにする)
 	player_ = new Player();
-	for (Enemy* enemy : enemies_) {
-		enemy = new Enemy();
-	}
+
 	skydome_ = new Skydome();
 
 	//レールカメラのインクリース的な名前の奴
 	railCamera_ = new RailCamera();
 
+	//敵の初期化関連
+	AddEnemy({10.0f,0.0f,50.0f});
 
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
@@ -58,10 +59,6 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldProjection());
 
-	//enemy_->Initialize(model_);
-	for (Enemy* enemy : enemies_) {
-		enemy->Initialize(model_);
-	}
 
 	skydome_->Initialize(modelSkydome_);
 	//プレイヤーの位置？を代入する？
@@ -88,16 +85,30 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 	player_->Update();
 	//enemy_->Update();
+	//敵の描写
 	for (Enemy* enemy : enemies_) {
 		enemy->Update();
+		
 	}
 
+#pragma region ですフラグでの敵の消滅
+
+	enemies_.remove_if([](Enemy* enemy) {
+		if (enemy->IsDead()) {
+			delete enemy;
+			return true;
+		}
+
+		return false;
+	});
+
+#pragma endregion
 	skydome_->Update();
 
 	railCamera_->Update();
 
+	//敵の弾の描写
 	for (EnemyBullet* bullet : enemybullets_) {
-
 		bullet->Update();
 	}
 
@@ -287,4 +298,25 @@ void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet)
 {
 	//リスト
 	enemybullets_.push_back(enemyBullet);
+}
+
+void GameScene::LoadEnemyPopDate() 
+{
+
+}
+
+void GameScene::AddEnemy(Vector3 pos)
+{
+	//初期化処理関連
+		Enemy* enemy = new Enemy();
+		//多分敵の初期化処理書き直し
+		enemy->Initialize(model_,pos);
+		enemy->SetPlayer(player_);
+		// 現在のゲームシーン
+		enemy->SetGameScene(this);
+		//enemy.push_buck(enemy);
+
+	//プッシュ
+		enemies_.push_back(enemy);
+
 }

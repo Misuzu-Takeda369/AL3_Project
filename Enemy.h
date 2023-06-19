@@ -17,7 +17,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Model* model);
+	void Initialize(Model* model, Vector3 pos);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -62,7 +62,13 @@ public:
 	//弾リストのげったー
 	//const std::list<EnemyBullet*>& GetBullet() { return bullets_; };
 
+	//敵が作った弾をゲームシーンに覚えさせておく奴
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; };
+
+		/// <summary>
+	/// クラスの外部用敵が消えるためのフラグ変数
+	/// </summary>
+	bool IsDead() const { return isDead_; };
 
 private:
 	// ワールドトランスフォーム(敵に移動するカメラ個体ごと)
@@ -85,6 +91,7 @@ private:
 	//弾(プレイヤーと同じようにリスト化しとく)
 	//std::list<EnemyBullet*> bullets_;
 
+
 	//発射タイマー
 	int32_t fireTimer_ = 0;
 
@@ -92,4 +99,13 @@ private:
 
 	//ゲームシーン
 	GameScene* gameScene_ = nullptr;
+
+
+	// 弾の寿命(消えるまでの時間の定数)
+	static const int32_t kLifeTime = 60 * 5;
+	// 弾の寿命(消えるまでの時間の判定用変数)
+	int32_t deathTimer_ = kLifeTime;
+	// 消えるフラグ
+	bool isDead_ = false;
+
 };

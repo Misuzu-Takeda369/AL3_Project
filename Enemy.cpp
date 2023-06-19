@@ -1,8 +1,10 @@
-﻿#include "Enemy.h"
+﻿
+#include "Enemy.h"
 #include "ImGuiManager.h"
 #include <cassert>
 #include "calc.h"
 #include "Player.h"
+#include "GameScene.h"
 
 Enemy::~Enemy() {
 	/*
@@ -12,7 +14,7 @@ Enemy::~Enemy() {
 	}
 	*/
 }
-void Enemy::Initialize(Model* model) {
+void Enemy::Initialize(Model* model, Vector3 pos) {
 
 	// ヌルじゃないか確認
 	assert(model);
@@ -21,7 +23,7 @@ void Enemy::Initialize(Model* model) {
 	textureHandle_ = TextureManager::Load("Pbase.png");
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
-	worldTransform_.translation_ = {20.0f, 0.0f, 140.0f};
+	worldTransform_.translation_ = {pos.x, pos.y, pos.z};
 	worldTransform_.Initialize();
 
 	// 接近フェーズ初期化
@@ -114,6 +116,7 @@ void Enemy::ApproachMove() {
 		phase_ = Enemy::Phase::Leave;
 	}
 
+	
 #pragma region 弾
 	//発射タイマーカウント(減らす)
 	fireTimer_--;
@@ -124,7 +127,9 @@ void Enemy::ApproachMove() {
 		//タイマーを戻す
 		fireTimer_ = kFireInterval;
 	}
+	
 #pragma endregion
+
 }
 
 void Enemy::LeaveMove() {
@@ -173,6 +178,8 @@ void Enemy::Fire() {
 		// 弾を登録する
 		// bullet_ = newBullet;
 	    //enemyBullets.push_back(newBullet);
+
+	    gameScene_->AddEnemyBullet(newBullet);
 	
 }
 
@@ -193,6 +200,4 @@ Vector3 Enemy::GetWorldPosition() {
 }
 
 // 当たったことが伝わったらこっちで処理する関数
-void Enemy::OnCollision() {
-	//反応しない
-}
+void Enemy::OnCollision() { isDead_ = true; }
