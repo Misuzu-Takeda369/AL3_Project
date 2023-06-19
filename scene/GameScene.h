@@ -65,6 +65,11 @@ public: // メンバ関数
 	void LoadEnemyPopDate();
 
 	/// <summary>
+	/// 敵コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+	/// <summary>
 	/// 敵を生成する
 	/// </summary>
 	void AddEnemy(Vector3 pos);
@@ -118,4 +123,6 @@ private: // メンバ変数
 	//敵発生コマンド
 	std::stringstream enemyPopCommands;
 
+	int32_t waitTimer = 0;
+	bool waitFlag = false;
 };

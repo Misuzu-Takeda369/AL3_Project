@@ -2,6 +2,7 @@
 #include "AxisIndicator.h"
 #include "TextureManager.h"
 #include <cassert>
+#include <fstream>
 
 GameScene::GameScene() {}
 
@@ -50,7 +51,10 @@ void GameScene::Initialize() {
 	railCamera_ = new RailCamera();
 
 	//敵の初期化関連
-	AddEnemy({10.0f,0.0f,50.0f});
+	LoadEnemyPopDate();
+	UpdateEnemyPopCommands();
+	//ここにロード関連をぶつける
+	//AddEnemy({10.0f,0.0f,50.0f});
 
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
@@ -302,6 +306,86 @@ void GameScene::AddEnemyBullet(EnemyBullet* enemyBullet)
 
 void GameScene::LoadEnemyPopDate() 
 {
+	//fileを開く
+	std::ifstream enemyMovefile;
+	enemyMovefile.open("EnemyPop.csv");
+	//エラーの確認
+	assert(enemyMovefile.is_open());
+
+	//fileの生身を敵発生コマンドにコピー
+	enemyPopCommands << enemyMovefile.rdbuf();
+
+	//fileを閉じる
+	enemyMovefile.close();
+}
+
+void GameScene::UpdateEnemyPopCommands()
+{
+	//待機処理
+	if (waitFlag) {
+		waitTimer--;
+		if (waitTimer <= 0) {
+			//待機が終わったよ
+			waitFlag = false;
+		}
+		return;
+	}
+
+	//1行分の文字列を入れる変数
+	std::string line;
+
+	//コマンド実行(1セットの最後までループ)
+	while (getline(enemyPopCommands, line)) {
+		//1行分の文字列を解析しやすくする
+		std::istringstream line_stream(line);
+
+		//カンマ区切りで先頭の文字列をとってくる(カンマとカンマの間の文字をとってくるイメージ)
+		std::string word;
+		getline(line_stream, word,',');
+
+		//　//から始まる行はコメントなのでとばすよーっていう処理を挟み込む
+		if (word.find("//") == 0) {
+			continue;
+		}
+
+		//POPという文字列が最初にいた場合下記のif文を処理する
+		if (word.find("POP") == 0) {
+			// x座標 (カンマ区切りで拾ってくる)
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標 (カンマ区切りで拾ってくる)
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標 (カンマ区切りで拾ってくる)
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			//上で拾ってきた値を敵に入れる処理
+			AddEnemy({x,y,z});
+
+		}
+
+		//WAITから始まる文字列が最初にいた場合下記のif文を処理する
+		else if (word.find("WAIT") == 0) {
+
+			//文字列拾ってくる
+			getline(line_stream, word, ',');
+
+			//待ち時間
+			int32_t waitTime = atoi(word.c_str());
+
+			//待機開始
+
+			waitFlag = true;
+			waitTimer = waitTime;
+
+			//ループを抜ける(POP、WAITで1セットでwaitの最後まで行ったら抜ける)
+			break;
+
+		}
+	}
 
 }
 
