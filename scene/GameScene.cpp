@@ -51,8 +51,8 @@ void GameScene::Initialize() {
 	railCamera_ = new RailCamera();
 
 	//敵の初期化関連
-	LoadEnemyPopDate();
-	UpdateEnemyPopCommands();
+	i LoadEnemyPopDate();
+	m  UpdateEnemyPopCommands();
 	//ここにロード関連をぶつける
 	//AddEnemy({10.0f,0.0f,50.0f});
 
