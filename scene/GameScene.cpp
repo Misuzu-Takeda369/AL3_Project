@@ -51,8 +51,8 @@ void GameScene::Initialize() {
 	railCamera_ = new RailCamera();
 
 	//敵の初期化関連
-	i LoadEnemyPopDate();
-	m  UpdateEnemyPopCommands();
+	LoadEnemyPopDate();
+	
 	//ここにロード関連をぶつける
 	//AddEnemy({10.0f,0.0f,50.0f});
 
@@ -95,6 +95,7 @@ void GameScene::Update() {
 		
 	}
 
+	UpdateEnemyPopCommands();
 #pragma region ですフラグでの敵の消滅
 
 	enemies_.remove_if([](Enemy* enemy) {
@@ -308,7 +309,7 @@ void GameScene::LoadEnemyPopDate()
 {
 	//fileを開く
 	std::ifstream enemyMovefile;
-	enemyMovefile.open("EnemyPop.csv");
+	enemyMovefile.open("Resources/EnemyPop.csv");
 	//エラーの確認
 	assert(enemyMovefile.is_open());
 
