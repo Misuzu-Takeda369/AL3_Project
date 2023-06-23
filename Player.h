@@ -42,6 +42,7 @@ private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)
 	WorldTransform worldTransform_;
 
+
 	// モデル
 	Model* model_ = nullptr;
 

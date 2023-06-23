@@ -142,7 +142,7 @@ void GameScene::CheckAllCollisions() {
 			+((posB.z - posA.z) * (posB.z - posA.z));
 		
 		// 半径(仮)
-		float RadishMix = 20.0f;
+		const float RadishMix = 20.0f;
 		// 当たってるか否か
 		if (MixAB <= RadishMix) {
 			player_->OnCollision();
@@ -154,7 +154,7 @@ void GameScene::CheckAllCollisions() {
 #pragma endregion
 
 #pragma region プレイヤー弾と敵当たり判定
-	// 自キャラ座標
+	// 敵座標
 	posA = enemy_->GetWorldPosition();
 
 	// プレイヤーと弾すべての当たり判定を判断する
@@ -167,7 +167,7 @@ void GameScene::CheckAllCollisions() {
 		              ((posB.z - posA.z) * (posB.z - posA.z));
 
 		// 半径(仮)
-		float RadishMix = 20.0f;
+		const float RadishMix = 20.0f;
 		// 当たってるか否か
 		if (MixAB <= RadishMix) {
 			enemy_->OnCollision();
@@ -191,7 +191,7 @@ void GameScene::CheckAllCollisions() {
 			              ((posB.z - posA.z) * (posB.z - posA.z));
 
 			// 半径(仮)
-			float RadishMix = 20.0f;
+			const float RadishMix = 20.0f;
 			// 当たってるか否か
 			if (MixAB <= RadishMix) {
 				bulletP->OnCollision();
