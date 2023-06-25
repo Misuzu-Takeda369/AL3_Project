@@ -63,6 +63,7 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldProjection());
 
+	
 
 	skydome_->Initialize(modelSkydome_);
 	//プレイヤーの位置？を代入する？

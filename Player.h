@@ -42,6 +42,11 @@ public:
 	/// 親となるワールドトランスフォーム(今回はカメラ)
 	/// </summary>
 	void SetParent(const WorldTransform * parent);
+
+	/// <summary>
+	/// 自機のワールド座標から3Dレティクルのワールド座標を計算関数
+	/// </summary>
+	void PtoReticleCalc();
 	
 
 private:
@@ -60,4 +65,8 @@ private:
 	//弾
 	//PlayerBullet* bullet_ = nullptr;
 	std::list<PlayerBullet*> bullets_;
+
+	//3dレティクル(ターゲットの画像のようなもの)用ワールドトランスフォーム
+	WorldTransform worldTransform3DReticle_;
+
 };

@@ -21,6 +21,9 @@ void Player::Initialize(Model* model, uint32_t textureHandle,  Vector3 pos) {
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = pos;  
+
+	//3Dレティクルのワールドトランスフォームの初期化
+	worldTransform3DReticle_.Initialize();
 	// 外から受け取ったのdelete不可能
 
 	// シングルトンインスタンス取得
@@ -67,6 +70,9 @@ void Player::Update() {
 	} else if (input_->PushKey(DIK_D)) {
 		worldTransform_.rotation_.y += kRotSpeed;
 	}
+
+	
+
 #pragma region 移動の計算
 	// 制限
 	// 制限座標
@@ -89,6 +95,8 @@ void Player::Update() {
 	// 攻撃処理呼び出し
 	Attack();
 
+	// 自機のワールド座標から3Dレティクルのワールド座標を計算関数
+	PtoReticleCalc();
 	/* if (bullet_) {
 	    // 弾が呼び出されている時に
 	    bullet_->Update();
@@ -98,7 +106,8 @@ void Player::Update() {
 
 		bullet->Update();
 	}
-	// ImGui
+
+#pragma region ImGui
 	// 窓
 	ImGui::SetNextWindowPos({0, 0});
 	ImGui::SetNextWindowSize({300, 100});
@@ -110,11 +119,15 @@ void Player::Update() {
 	ImGui::SliderFloat3("position", sliderValue, -20.0f, 20.0f);
 	worldTransform_.translation_ = {sliderValue[0], sliderValue[1], sliderValue[2]};
 	ImGui::End();
+#pragma endregion
+
 };
 
 void Player::Draw(ViewProjection viewprojection) {
 
 	model_->Draw(worldTransform_, viewprojection, textureHandle_);
+
+	model_->Draw(worldTransform3DReticle_, viewprojection, textureHandle_);
 
 	/* if (bullet_) {
 
@@ -133,6 +146,12 @@ void Player::Attack() {
 		// 弾の速度
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
+
+		Vector3 ReticleVelocity;
+
+		ReticleVelocity = Subtract(worldTransform3DReticle_.translation_,worldTransform_.translation_);
+		ReticleVelocity = dir(ReticleVelocity.x, ReticleVelocity.y, ReticleVelocity.z);
+		ReticleVelocity = Multiply(kBulletSpeed, ReticleVelocity);
 
 		//worldTransform_.translation_ = GetWorldPosition();
 		// 速度のベクトルを自機の向きに合わせて回転する
@@ -165,4 +184,29 @@ void Player::OnCollision() {
 void Player::SetParent(const WorldTransform* parent) {
 	//親子関係を結ぶ(プレイヤーの位置とカメラ)
 	worldTransform_.parent_ = parent;
+}
+
+void Player::PtoReticleCalc()
+{
+	//自機から3Dレティクルの距離の変数
+	const float kDistanceplayerTo3DReticle = 50.0f;
+
+	//自機から3dレティクルへの補完(z向き)
+	Vector3 offset = {0.0f,0.0f,1.0f};
+	//自機の回転を反映(自機のワールド行列)
+	offset = TransformNormal(offset, worldTransform_.matWorld_);
+	//ベクトルの長さを整える
+	offset = dir(offset.x, offset.y, offset.z);
+	offset = Multiply(kDistanceplayerTo3DReticle, offset);
+	
+	//３Dレティクルの座標を設定
+	worldTransform3DReticle_.translation_ = worldTransform_.translation_;
+	worldTransform3DReticle_.translation_.z += offset.z;
+	// 転送
+	worldTransform3DReticle_.TransferMatrix();
+	// 行列更新
+	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
+	    worldTransform3DReticle_.scale_, worldTransform3DReticle_.rotation_,
+	    worldTransform3DReticle_.translation_);
+
 }
