@@ -19,7 +19,7 @@ void Enemy::Initialize(Model* model) {
 	textureHandle_ = TextureManager::Load("Pbase.png");
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
-	worldTransform_.translation_ = {20.0f, 0.0f, 40.0f};
+	worldTransform_.translation_ = {20.0f, 0.0f, 100.0f};
 	worldTransform_.Initialize();
 
 	// 接近フェーズ初期化
@@ -149,6 +149,7 @@ void Enemy::Fire() {
 		//正規化
 	    Vector3 Unk= dir(peVelocityX, peVelocityY, peVelocityZ);
 		//(正規化)計算してなぶち込む(ベクトルの長さを早さに合わせる)
+
 	    Vector3 clacvelocity = {
 			kBulletSpeed * Unk.x, 
 			kBulletSpeed * Unk.y, 
