@@ -191,6 +191,7 @@ void Player::PtoReticleCalc()
 	//自機から3Dレティクルの距離の変数
 	const float kDistanceplayerTo3DReticle = 50.0f;
 
+	//回転の処理
 	//自機から3dレティクルへの補完(z向き)
 	Vector3 offset = {0.0f,0.0f,1.0f};
 	//自機の回転を反映(自機のワールド行列)
@@ -199,9 +200,15 @@ void Player::PtoReticleCalc()
 	offset = dir(offset.x, offset.y, offset.z);
 	offset = Multiply(kDistanceplayerTo3DReticle, offset);
 	
-	//３Dレティクルの座標を設定
-	worldTransform3DReticle_.translation_ = worldTransform_.translation_;
-	worldTransform3DReticle_.translation_.z += offset.z;
+	//３Dレティクルの座標を設定 ここで全体の総括
+	//プレイヤーのワールド行列
+	worldTransform3DReticle_.translation_= GetWorldPosition();
+	//回転した分の位置を代入
+	worldTransform3DReticle_.translation_ = {
+	    worldTransform3DReticle_.translation_.x + offset.x,
+	    worldTransform3DReticle_.translation_.y + offset.y,
+	    worldTransform3DReticle_.translation_.z + offset.z
+	};
 	// 転送
 	worldTransform3DReticle_.TransferMatrix();
 	// 行列更新

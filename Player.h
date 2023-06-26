@@ -30,6 +30,10 @@ public:
 
 	void Attack();
 
+	/// <summary>
+	/// ワールド行列に変換する関数
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetWorldPosition();
 
 	//当たったことが伝わったらこっちで処理する関数
