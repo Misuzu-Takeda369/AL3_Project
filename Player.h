@@ -66,7 +66,7 @@ private:
 	Model* model_ = nullptr;
 
 	//2Dレティクル用のスプライト
-	Sprite* sprite2DReticle_;
+	Sprite* sprite2DReticle_ = nullptr;
 
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;

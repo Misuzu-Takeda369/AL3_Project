@@ -37,9 +37,9 @@ void Player::Initialize(Model* model, uint32_t textureHandle,  Vector3 pos) {
 	//レティクル用画像生成
 	uint32_t textureReticle = TextureManager::Load("target.png");
 
-	Vector2 s2dPos = {worldTransform_.translation_.x, worldTransform_.translation_.y};
+	Vector2 s2dPos = {500.0f, 500.0f};
 	//スプライト生成
-	sprite2DReticle_ = Sprite::Create(textureReticle, s2dPos, {0.0f, 0.0f, 0.0f, 0.0f}, {0.5f,0.5f});
+	sprite2DReticle_ = Sprite::Create(textureReticle, s2dPos, {1.0f,1.0f,1.0f,1.0f}, {0.5f, 0.5f});
 };
 
 void Player::Update() {
@@ -230,7 +230,8 @@ void Player::PtoReticleCalc()
 
 }
 
-void Player::DrawUI()
-{
-
+void Player::DrawUI() 
+{ 
+	sprite2DReticle_->Draw(); 
 }
+
