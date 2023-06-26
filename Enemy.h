@@ -1,18 +1,17 @@
 ﻿#pragma once
+#include "EnemyBullet.h"
 #include "Model.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <list>
-#include "EnemyBullet.h"
 
-//前方宣言
+// 前方宣言
 class Player;
 class GameScene;
 
 class Enemy {
 
 public:
-
 	~Enemy();
 	/// <summary>
 	/// 初期化
@@ -62,13 +61,13 @@ public:
 	// 当たったことが伝わったらこっちで処理する関数
 	void OnCollision();
 
-	//弾リストのげったー
-	//const std::list<EnemyBullet*>& GetBullet() { return bullets_; };
+	// 弾リストのげったー
+	// const std::list<EnemyBullet*>& GetBullet() { return bullets_; };
 
-	//敵が作った弾をゲームシーンに覚えさせておく奴
+	// 敵が作った弾をゲームシーンに覚えさせておく奴
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; };
 
-		/// <summary>
+	/// <summary>
 	/// クラスの外部用敵が消えるためのフラグ変数
 	/// </summary>
 	bool IsDead() const { return isDead_; };
@@ -88,21 +87,19 @@ private:
 		Leave     // 離れる
 	};
 
-	//フェーズ(初期化もして置く)
+	// フェーズ(初期化もして置く)
 	Phase phase_ = Enemy::Phase::Approach;
 
-	//弾(プレイヤーと同じようにリスト化しとく)
-	//std::list<EnemyBullet*> bullets_;
+	// 弾(プレイヤーと同じようにリスト化しとく)
+	// std::list<EnemyBullet*> bullets_;
 
-
-	//発射タイマー
+	// 発射タイマー
 	int32_t fireTimer_ = 0;
 
 	Player* player_ = nullptr;
 
-	//ゲームシーン
+	// ゲームシーン
 	GameScene* gameScene_ = nullptr;
-
 
 	// 弾の寿命(消えるまでの時間の定数)
 	static const int32_t kLifeTime = 60 * 5;
@@ -110,5 +107,4 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	// 消えるフラグ
 	bool isDead_ = false;
-
 };

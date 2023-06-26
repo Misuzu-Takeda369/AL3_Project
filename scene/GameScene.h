@@ -58,6 +58,8 @@ public: // メンバ関数
 	/// <param name="enemybullet"></param>
 	void AddEnemyBullet(EnemyBullet* enemybullet);
 
+	void LoadEnemyPopDate();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -87,7 +89,10 @@ private: // メンバ変数
 
 	//敵の弾
 	// 弾(プレイヤーと同じようにリスト化しとく)
-	std::list<EnemyBullet*> enemyBullets_;
+	std::list<EnemyBullet*> enemybullets_;
+
+	//敵
+	std::list<Enemy*> enemies_;
 
 	// きゃめら
 	// デバッグカメラの挙動
