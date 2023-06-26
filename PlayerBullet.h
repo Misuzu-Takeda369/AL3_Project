@@ -37,7 +37,7 @@ private:
 	Vector3 velocity_;
 
 	//弾の寿命(消えるまでの時間の定数)
-	static const int32_t kLifeTime = 60 * 5;
+	static const int32_t kLifeTime = 6\0 * 5;
 	// 弾の寿命(消えるまでの時間の判定用変数)
 	int32_t deathTimer_ = kLifeTime;
 	//消えるフラグ

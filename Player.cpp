@@ -29,6 +29,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 void Player::Update() {
 
+
 #pragma region ですフラグでの弾の消滅
 
 	bullets_.remove_if([](PlayerBullet* bullet) {

@@ -5,7 +5,7 @@
 #include "Player.h"
 
 Enemy::~Enemy() {
-	for (EnemyBullet* bullet : bullets_) {
+	 for (EnemyBullet* bullet : bullets_) {
 
 		delete bullet;
 	}
@@ -45,7 +45,7 @@ void Enemy::Update() {
 
 #pragma region ですフラグでの弾の消滅
 
-	bullets_.remove_if([](EnemyBullet* bullet) {
+	 bullets_.remove_if([](EnemyBullet* bullet) {
 		if (bullet->IsDead()) {
 			delete bullet;
 			return true;
@@ -53,7 +53,7 @@ void Enemy::Update() {
 
 		return false;
 	});
-
+	
 #pragma endregion
 
 
