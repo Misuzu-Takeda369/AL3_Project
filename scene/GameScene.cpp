@@ -38,6 +38,10 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
+	//一回ここで画像を読み込んどく
+	//レティクルのテクスチャ
+	TextureManager::Load("target.png");
+	 
 	// ビュープロジェクション初期化(ゲーム共通カメラ)
 	//穴あきを防ぐ為の奴
 	viewProjection_.farZ = 200;
@@ -201,6 +205,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+	//プレイヤーのスプライト(モデルよりも前なのでここに)
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

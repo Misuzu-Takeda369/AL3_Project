@@ -10,6 +10,8 @@ Player::~Player() {
 		delete bullet;
 	}
 
+	//スプライトの解放
+	delete sprite2DReticle_;
 
 }
 
@@ -33,7 +35,11 @@ void Player::Initialize(Model* model, uint32_t textureHandle,  Vector3 pos) {
 
 	//2Dスプライト用処理
 	//レティクル用画像生成
+	uint32_t textureReticle = TextureManager::Load("target.png");
 
+	Vector2 s2dPos = {worldTransform_.translation_.x, worldTransform_.translation_.y};
+	//スプライト生成
+	sprite2DReticle_ = Sprite::Create(textureReticle, s2dPos, {0.0f, 0.0f, 0.0f, 0.0f}, {0.5f,0.5f});
 };
 
 void Player::Update() {
@@ -221,5 +227,10 @@ void Player::PtoReticleCalc()
 	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
 	    worldTransform3DReticle_.scale_, worldTransform3DReticle_.rotation_,
 	    worldTransform3DReticle_.translation_);
+
+}
+
+void Player::DrawUI()
+{
 
 }

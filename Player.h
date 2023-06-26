@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Input.h"
 #include "Model.h"
+#include "Sprite.h"
 #include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
@@ -52,6 +53,10 @@ public:
 	/// </summary>
 	void PtoReticleCalc();
 	
+	/// <summary>
+	/// UI(2Dの描写)
+	/// </summary>
+	void DrawUI();
 
 private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)
