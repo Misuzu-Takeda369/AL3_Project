@@ -9,6 +9,8 @@ Player::~Player() {
 
 		delete bullet;
 	}
+
+
 }
 
 void Player::Initialize(Model* model, uint32_t textureHandle,  Vector3 pos) {
@@ -28,6 +30,10 @@ void Player::Initialize(Model* model, uint32_t textureHandle,  Vector3 pos) {
 
 	// シングルトンインスタンス取得
 	input_ = Input::GetInstance();
+
+	//2Dスプライト用処理
+	//レティクル用画像生成
+
 };
 
 void Player::Update() {

@@ -60,6 +60,9 @@ private:
 	// モデル
 	Model* model_ = nullptr;
 
+	//2Dレティクル用のスプライト
+	Sprite* sprite2DReticle_;
+
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 
