@@ -19,9 +19,9 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 
 void EnemyBullet::Update() {
 	// 座標移動
-	world_.translation_.x += velocity_.x;
-	world_.translation_.y += velocity_.y;
-	world_.translation_.z += velocity_.z;
+	world_.translation_.x -= velocity_.x;
+	world_.translation_.y -= velocity_.y;
+	world_.translation_.z -= velocity_.z;
 
 	// 時間経過で判断する
 	--deathTimer_;
@@ -30,6 +30,8 @@ void EnemyBullet::Update() {
 	}
 
 	world_.UpdateMatrix();
+	// 行列更新
+	world_.matWorld_ = MakeAffineMatrix(world_.scale_, world_.rotation_, world_.translation_);
 };
 
 void EnemyBullet::Draw(ViewProjection& view) { model_->Draw(world_, view, textureHandle_); }
