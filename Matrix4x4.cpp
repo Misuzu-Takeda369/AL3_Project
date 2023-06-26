@@ -1,7 +1,7 @@
 ﻿#include "Matrix4x4.h"
 #define _USE_MATH_DEFINES
-#include <math.h>
 #include <iostream>
+#include <math.h>
 
 Matrix4x4 MakeScalematrix(const Vector3& scale) {
 	Matrix4x4 result;
@@ -35,7 +35,6 @@ Matrix4x4 MakeRotationYMatrix(float theta) {
 
 	return result;
 };
-
 Matrix4x4 MakeRotationZMatrix(float theta) {
 	float sin = std::sinf(theta);
 	float cos = std::cosf(theta);
@@ -104,7 +103,7 @@ Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2) {
 
 Matrix4x4 Inverse(const Matrix4x4& m) {
 
-		float A = (m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3]) +
+	float A = (m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3]) +
 	          (m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1]) +
 	          (m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2]) -
 	          (m.m[0][0] * m.m[1][3] * m.m[2][2] * m.m[3][1]) -
@@ -212,3 +211,16 @@ Matrix4x4 Inverse(const Matrix4x4& m) {
 
 	return result;
 };
+
+Matrix4x4 MakeVieportMatrix(float left, float top, float width, float height) {
+	Matrix4x4 result;
+
+	result = {
+	    width / 2.0f,0.0f,0.0f,0.0f,
+		0.0f, -(height / 2.0f),0.0f,0.0f,
+	    0.0f,0.0f,(1.0f - 0.0f),0.0f,
+	    left + (width / 2.0f),top + (height / 2.0f),0.0f,1.0f
+	};
+
+	return result;
+}

@@ -29,3 +29,13 @@ Matrix4x4 operator*(const Matrix4x4& m1, const Matrix4x4& m2);
 
 // 逆行列
 Matrix4x4 Inverse(const Matrix4x4& m);
+
+/// <summary>
+///  ビューポート変換行列 (スクリーン座標にするための奴)
+/// </summary>
+/// <param name="left">ビューポートオフセットX</param>
+/// <param name="top">ビューポートオフセットY</param>
+/// <param name="width">ビューポート横幅</param>
+/// <param name="height">ビューポート縦幅</param>
+/// <returns></returns>
+Matrix4x4 MakeVieportMatrix(float left, float top, float width, float height);
