@@ -14,8 +14,7 @@
 #include "Skydome.h"
 #include "RailCamera.h"
 #include <list>
-#include "EnemyBullet.h"
-#include <sstream>
+
 
 /// <summary>
 /// ゲームシーン
@@ -54,30 +53,10 @@ public: // メンバ関数
 	void CheckAllCollisions();
 
 	/// <summary>
-	/// ゲームシーンに球を登録する
+	/// 敵の球を追加する(エネミークラスにあったやつをシーンに持ち込む)
 	/// </summary>
-	/// <param name="enemyBullet"></param>
-	void AddEnemyBullet(EnemyBullet* enemyBullet);
-
-	/// <summary>
-	/// 敵発生データの読みこみ
-	/// </summary>
-	void LoadEnemyPopDate();
-
-	/// <summary>
-	/// 敵コマンドの更新
-	/// </summary>
-	void UpdateEnemyPopCommands();
-
-	/// <summary>
-	/// 敵を生成する
-	/// </summary>
-	void AddEnemy(Vector3 pos);
-
-	// 敵弾リストのげったー
-	const std::list<EnemyBullet*>& GetBullet() { return enemybullets_; };
-
-	
+	/// <param name="enemybullet"></param>
+	void AddEnemyBullet(EnemyBullet* enemybullet);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -100,14 +79,15 @@ private: // メンバ変数
 
 	// 自分のキャラのデータ
 	Player* player_ = nullptr;
-	//敵のデータ(複数にする)
-	//Enemy* enemy_ = nullptr;
-	std::list<Enemy*> enemies_;
-
+	//敵のデータ
+	Enemy* enemy_ = nullptr;
 	//スカイドーム
 	Skydome* skydome_ = nullptr;
 
 
+	//敵の弾
+	// 弾(プレイヤーと同じようにリスト化しとく)
+	std::list<EnemyBullet*> enemyBullets_;
 
 	// きゃめら
 	// デバッグカメラの挙動
@@ -117,12 +97,4 @@ private: // メンバ変数
 	//レールカメラのデータ
 	RailCamera* railCamera_ = nullptr;
 
-	// 弾(プレイヤーと同じようにリスト化しとく)
-	std::list<EnemyBullet*> enemybullets_;
-
-	//敵発生コマンド
-	std::stringstream enemyPopCommands;
-
-	int32_t waitTimer = 0;
-	bool waitFlag = false;
 };
