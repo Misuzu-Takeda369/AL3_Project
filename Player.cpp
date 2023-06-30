@@ -242,12 +242,13 @@ void Player::DrawUI()
 }
 
 void Player::WorldtoScreen(const ViewProjection viewprojection) { 
+
 	Vector3 postionReticle = worldTransform3DReticle_.translation_;
 	
 	ViewProjection viewProjection = viewprojection;
 	
 	//ビューポート行列
-	Matrix4x4 matviewport = MakeVieportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowWidth);
+	Matrix4x4 matviewport = MakeVieportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight);
 
 	//ビュー行列とプロジェクション行列とビューポート行列の合成
 	Matrix4x4 matViewProjectionViewport =viewProjection.matView * viewProjection.matProjection * matviewport;
