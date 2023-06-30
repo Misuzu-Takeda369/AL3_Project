@@ -39,3 +39,7 @@ Matrix4x4 Inverse(const Matrix4x4& m);
 /// <param name="height">ビューポート縦幅</param>
 /// <returns></returns>
 Matrix4x4 MakeVieportMatrix(float left, float top, float width, float height);
+
+
+
+Matrix4x4 Matrix4x4Add(const Matrix4x4& m1, const Matrix4x4& m2);

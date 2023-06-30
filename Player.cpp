@@ -42,7 +42,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle,  Vector3 pos) {
 	sprite2DReticle_ = Sprite::Create(textureReticle, s2dPos, {1.0f,1.0f,1.0f,1.0f}, {0.5f, 0.5f});
 };
 
-void Player::Update() {
+void Player::Update(ViewProjection viewprojection) {
 
 #pragma region ですフラグでの弾の消滅
 
@@ -102,6 +102,11 @@ void Player::Update() {
 	worldTransform_.translation_.z += move.z;
 	// 行列更新
 	worldTransform_.UpdateMatrix();
+
+	// 行列更新
+	worldTransform_.matWorld_ = MakeAffineMatrix(
+	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+
 #pragma endregion
 
 	// 攻撃処理呼び出し
@@ -119,6 +124,7 @@ void Player::Update() {
 		bullet->Update();
 	}
 
+	WorldtoScreen(viewprojection);
 #pragma region ImGui
 	// 窓
 	ImGui::SetNextWindowPos({0, 0});
@@ -213,7 +219,7 @@ void Player::PtoReticleCalc()
 	offset = Multiply(kDistanceplayerTo3DReticle, offset);
 	
 	//３Dレティクルの座標を設定 ここで全体の総括
-	//プレイヤーのワールド行列
+	//３Dレティクルのワールド座標
 	worldTransform3DReticle_.translation_= GetWorldPosition();
 	//回転した分の位置を代入
 	worldTransform3DReticle_.translation_ = {
@@ -233,5 +239,23 @@ void Player::PtoReticleCalc()
 void Player::DrawUI() 
 { 
 	sprite2DReticle_->Draw(); 
+}
+
+void Player::WorldtoScreen(const ViewProjection viewprojection) { 
+	Vector3 postionReticle = worldTransform3DReticle_.translation_;
+	
+	ViewProjection viewProjection = viewprojection;
+	
+	//ビューポート行列
+	Matrix4x4 matviewport = MakeVieportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowWidth);
+
+	//ビュー行列とプロジェクション行列とビューポート行列の合成
+	Matrix4x4 matViewProjectionViewport =viewProjection.matView * viewProjection.matProjection * matviewport;
+	   
+	//ワールドからスクリーン
+	postionReticle = Transform(postionReticle, matViewProjectionViewport);
+
+	//レティクルに座標設定r
+	sprite2DReticle_->SetPosition(Vector2(postionReticle.x, postionReticle.y));
 }
 

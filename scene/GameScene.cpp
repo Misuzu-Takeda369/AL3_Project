@@ -88,7 +88,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
-	player_->Update();
+	player_->Update(viewProjection_);
 	// enemy_->Update();
 	// 敵の描写
 	for (Enemy* enemy : enemies_) {

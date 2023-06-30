@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Update(ViewProjection viewprojection);
 
 	/// <summary>
 	/// 描画
@@ -57,6 +57,8 @@ public:
 	/// UI(2Dの描写)
 	/// </summary>
 	void DrawUI();
+
+	void WorldtoScreen(const ViewProjection viewprojection);
 
 private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)
