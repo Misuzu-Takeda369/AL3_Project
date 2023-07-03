@@ -95,7 +95,9 @@ void GameScene::Update() {
 		
 	}
 
+	//敵の呼び出しの更新
 	UpdateEnemyPopCommands();
+
 #pragma region ですフラグでの敵の消滅
 
 	enemies_.remove_if([](Enemy* enemy) {
