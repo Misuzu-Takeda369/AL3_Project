@@ -125,6 +125,7 @@ void Player::Update(ViewProjection viewprojection) {
 	// 攻撃処理呼び出し
 	Attack();
 
+
 	for (PlayerBullet* bullet : bullets_) {
 
 		bullet->Update();
@@ -303,21 +304,23 @@ void Player::ScreenToWorld(const ViewProjection viewprojection) {
 	//スクリーン座標(のちのためにファーとニアも作っておく)
 	Vector3 posNear = Vector3(float(mousePostion.x), float(mousePostion.y),0.0f);
 	Vector3 posFar = Vector3(float(mousePostion.x), float(mousePostion.y), 1.0f);
+
 	//スクリーン座標からワールド座標
 	posNear = Transform(posNear, matInverseVPV);
 	posFar = Transform(posFar, matInverseVPV);
 
+
 	///6.マウス前方の計算と3Dレティクルの配置
 	//マウスレイの方向
-	Vector3 mouseDirection = Subtract(posNear, posFar);
+	Vector3 mouseDirection = Subtract(posFar, posNear);
 	//正規化する
 	mouseDirection = dir(mouseDirection.x, mouseDirection.y, mouseDirection.z);
 	//カメラから照準オブジェクトの距離 (適当な数？) 
 	const float kDistanceTestObject = 10.0f;
 
 	//掛け算してから足し算
-	 worldTransform3DReticle_.translation_ =
-	    Add(posNear, Multiply(kDistanceTestObject, mouseDirection));
+	worldTransform3DReticle_.translation_ =
+	    Add(Multiply(kDistanceTestObject, mouseDirection), posNear);
 	    
 	//worldTransform3DReticle_の更新と転送
 	//  行列更新
@@ -336,7 +339,7 @@ void Player::ScreenToWorld(const ViewProjection viewprojection) {
 	ImGui::SetNextWindowSize({300, 100});
 	// プレイヤー座標表示
 	ImGui::Begin("Player2DReticle");
-	//ImGui::Text("2DReticle:(%f,%f)", sprite2DReticle_);
+	ImGui::Text("2DReticle:(%f,%f)", float(mousePostion.x), float(mousePostion.y));
 	ImGui::Text("Near:(%.2f,%.2f,%.2f)", posNear.x, posNear.y, posNear.z);
 	ImGui::Text("Far:(%.2f,%.2f,%.2f)", posFar.x, posFar.y, posFar.z);
 	ImGui::Text(
