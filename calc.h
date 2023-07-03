@@ -29,3 +29,11 @@ Vector3 Multiply(float scalar, const Vector3& v);
 /// <param name="v2">引く法</param>
 /// <returns></returns>
 Vector3 Subtract(const Vector3& v1, const Vector3& v2);
+
+/// <summary>
+/// Vector3の加算
+/// </summary>
+/// <param name="v1">足される方</param>
+/// <param name="v2">足す方</param>
+/// <returns></returns>
+Vector3 Add(const Vector3& v1, const Vector3& v2);

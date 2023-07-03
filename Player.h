@@ -58,7 +58,17 @@ public:
 	/// </summary>
 	void DrawUI();
 
+	/// <summary>
+	/// ワールド座標からスクリーン座標へと変換する関数
+	/// </summary>
+	/// <param name="viewprojection">ビュープロジェクション</param>
 	void WorldtoScreen(const ViewProjection viewprojection);
+
+	/// <summary>
+	/// スクリーン座標からワールド座標へと変換する関数
+	/// </summary>
+	/// <param name="viewprojection">ビュープロジェクション</param>
+	void ScreenToWorld(const ViewProjection viewprojection);
 
 private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)
