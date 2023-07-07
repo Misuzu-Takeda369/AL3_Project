@@ -270,31 +270,28 @@ void Player::WorldtoScreen(const ViewProjection viewprojection) {
 void Player::ScreenToWorld(const ViewProjection viewprojection) {
 	///1.マウス座標を取得
 	//マウスの座標(スクリーン座標)を取得する
-	POINT mousePostion;
+	POINT mousePosition;
 	//WindowsAPI側の関数　(スクリーン座標=クライアントエリア座標)
-	GetCursorPos(&mousePostion);
+	GetCursorPos(&mousePosition);
 
 	///2.マウス座標を2Dレティクルのスプライトに代入する
 	//クライアントエリア座標に変換する
 	//これはなんの画面なのかを伝えるHWND(立ち上がったウインドー画面にある情報を伝える？)
 	HWND hwnd = WinApp::GetInstance()->GetHwnd();
 	//使いやすいように描写範囲内に写るように調整
-	ScreenToClient(hwnd,&mousePostion);
+	ScreenToClient(hwnd,&mousePosition);
 
 	//マウス座標を2Dレティクルのスプライト座標に代入
-	sprite2DReticle_->SetPosition(Vector2(float(mousePostion.x), float(mousePostion.y)));
+	sprite2DReticle_->SetPosition(Vector2(float(mousePosition.x), float(mousePosition.y)));
 
 	///3.ビュー行列と射影行列とビューポート行列の合成行列の計算
 	ViewProjection viewProjection = viewprojection;
 
 	// ビューポート行列
-	Matrix4x4 matviewport = MakeVieportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight);
+	Matrix4x4 matViewport = MakeVieportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight);
 
-	// ビュー行列とプロジェクション行列とビューポート行列の合成
-	Matrix4x4 matViewProjectionViewport =
-	    viewProjection.matView * viewProjection.matProjection * matviewport;
 	//ビュー、プロジェクション、ビューポートの合成行列
-	Matrix4x4 matVPV = viewProjection.matView * viewProjection.matProjection * matviewport;
+	Matrix4x4 matVPV = viewProjection.matView * viewProjection.matProjection * matViewport;
 
 	/// 4.合成行列の逆行列を計算する
 	//上の計算の逆行列
@@ -302,8 +299,8 @@ void Player::ScreenToWorld(const ViewProjection viewprojection) {
 
 	///5.ニアとファー
 	//スクリーン座標(のちのためにファーとニアも作っておく)
-	Vector3 posNear = Vector3(float(mousePostion.x), float(mousePostion.y),0.0f);
-	Vector3 posFar = Vector3(float(mousePostion.x), float(mousePostion.y), 1.0f);
+	Vector3 posNear = Vector3(float(mousePosition.x), float(mousePosition.y),0.0f);
+	Vector3 posFar = Vector3(float(mousePosition.x), float(mousePosition.y), 1.0f);
 
 	//スクリーン座標からワールド座標
 	posNear = Transform(posNear, matInverseVPV);
@@ -316,7 +313,7 @@ void Player::ScreenToWorld(const ViewProjection viewprojection) {
 	//正規化する
 	mouseDirection = dir(mouseDirection.x, mouseDirection.y, mouseDirection.z);
 	//カメラから照準オブジェクトの距離 (適当な数？) 
-	const float kDistanceTestObject = 10.0f;
+	const float kDistanceTestObject = 100.0f;
 
 	//掛け算してから足し算
 	worldTransform3DReticle_.translation_ =
@@ -333,13 +330,13 @@ void Player::ScreenToWorld(const ViewProjection viewprojection) {
 	    worldTransform3DReticle_.translation_);
 
 
-	#pragma region ImGui
+#pragma region ImGui
 	// 窓
 	ImGui::SetNextWindowPos({100,100});
 	ImGui::SetNextWindowSize({300, 100});
 	// プレイヤー座標表示
 	ImGui::Begin("Player2DReticle");
-	ImGui::Text("2DReticle:(%f,%f)", float(mousePostion.x), float(mousePostion.y));
+	ImGui::Text("2DReticle:(%f,%f)", float(mousePosition.x), float(mousePosition.y));
 	ImGui::Text("Near:(%.2f,%.2f,%.2f)", posNear.x, posNear.y, posNear.z);
 	ImGui::Text("Far:(%.2f,%.2f,%.2f)", posFar.x, posFar.y, posFar.z);
 	ImGui::Text(
