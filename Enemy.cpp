@@ -20,6 +20,7 @@ void Enemy::Initialize(Model* model) {
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
 	worldTransform_.translation_ = {20.0f, 0.0f, 100.0f};
+
 	worldTransform_.Initialize();
 
 	// 接近フェーズ初期化

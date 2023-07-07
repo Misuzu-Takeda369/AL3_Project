@@ -1,5 +1,7 @@
 ﻿#include "EnemyBullet.h"
 #include <cassert>
+#include <cmath>
+#include <iostream>
 
 void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 
@@ -15,6 +17,20 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	// 初期化と初期位置を貰う
 	world_.Initialize();
 	world_.translation_ = position;
+	// 敵の弾のスケールを変える
+	world_.scale_ = {0.5f,0.5f,3.0f};
+
+#pragma region プレイヤー方向を向こう!
+
+	//y軸周り
+	//float ZX = sqrt((velocity_.z * velocity_.z) + (velocity_.x * velocity_.x));
+
+	world_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	//横方向の長さ
+	world_.translation_.y *= world_.rotation_.y;
+	// x軸周り
+	world_.rotation_.x = std::atan2(-velocity_.y, velocity_.z);
+#pragma endregion
 };
 
 void EnemyBullet::Update() {
