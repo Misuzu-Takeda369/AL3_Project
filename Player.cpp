@@ -112,13 +112,15 @@ void Player::Update(ViewProjection viewprojection) {
 
 	// 自機のワールド座標から3Dレティクルのワールド座標を計算関数
 	PtoReticleCalc();
+
+	ScreenToWorld(viewprojection);
 	/* if (bullet_) {
 	    // 弾が呼び出されている時に
 	    bullet_->Update();
 	}*/
 	// WorldtoScreen(viewprojection);
 
-	ScreenToWorld(viewprojection);
+	
 
 	// 攻撃処理呼び出し
 	Attack();
@@ -174,9 +176,8 @@ void Player::Attack() {
 		ReticleVelocity = dir(ReticleVelocity.x, ReticleVelocity.y, ReticleVelocity.z);
 		ReticleVelocity = Multiply(kBulletSpeed, ReticleVelocity);
 
-		// worldTransform_.translation_ = GetWorldPosition();
 		//  速度のベクトルを自機の向きに合わせて回転する
-		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+		velocity = TransformNormal(ReticleVelocity, worldTransform_.matWorld_);
 
 		PlayerBullet* newBullet = new PlayerBullet();
 		newBullet->Initialize(model_, GetWorldPosition(), velocity);
