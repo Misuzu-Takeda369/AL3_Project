@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "GameScene.h"
 
+
 Enemy::~Enemy() {
 	/*
 	for (EnemyBullet* bullet : bullets_) {
