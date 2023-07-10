@@ -67,10 +67,11 @@ void GameScene::Initialize() {
 	// プレイヤーの位置？を代入する？
 	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f});
 
-	/* for (Enemy* enemy : enemies_) {
+	for (Enemy* enemy : enemies_) {
 		enemy->SetPlayer(player_);
+		// 現在のゲームシーン
+		enemy->SetGameScene(this);
 	}
-	*/
 
 	// enemy->SetPlayer(player_);
 	// enemy->SetGameScene(this);
@@ -377,10 +378,6 @@ void GameScene::UpdateEnemyPopCommands() {
 void GameScene::AddEnemy(Vector3 pos) {
 	// 初期化処理関連
 	Enemy* enemy = new Enemy();
-
-	// 現在のゲームシーン
-	enemy->SetGameScene(this);
-	enemy->SetPlayer(player_);
 	// 多分敵の初期化処理書き直し
 	enemy->Initialize(model_, pos);
 	enemy->SetPlayer(player_);
