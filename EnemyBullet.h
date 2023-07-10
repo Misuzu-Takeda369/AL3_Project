@@ -3,6 +3,10 @@
 #include "Vector3.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "calc.h"
+
+/// 前方宣言
+class Player;
 
 class EnemyBullet 
 {
@@ -21,6 +25,14 @@ public:
 	/// </summary>
 	bool IsDead() const { return isDead_; };
 
+	/// <summary>
+	/// プレイヤーの情報を貰うやつ
+	/// </summary>
+	/// <param name="player"></param>
+	void SetPlayer(Player* player) { player_ = player; };
+
+	
+
 private:
 	WorldTransform world_;
 	// モデル
@@ -38,4 +50,6 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	// 消えるフラグ
 	bool isDead_ = false;
+
+	Player* player_ = nullptr;
 };

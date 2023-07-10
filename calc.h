@@ -22,3 +22,7 @@ Vector3 Add(const Vector3& v1, const Vector3& v2);
 
 // スカラー倍
 Vector3 Multiply(float scalar, const Vector3& v);
+
+// 減算
+Vector3 Subtract(const Vector3& v1, const Vector3& v2);
+

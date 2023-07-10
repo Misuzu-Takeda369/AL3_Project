@@ -1,4 +1,5 @@
 ﻿#include "EnemyBullet.h"
+#include "Player.h"
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -18,15 +19,15 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	world_.Initialize();
 	world_.translation_ = position;
 	// 敵の弾のスケールを変える
-	world_.scale_ = {0.5f,0.5f,3.0f};
+	world_.scale_ = {0.5f, 0.5f, 3.0f};
 
-#pragma region プレイヤー方向を向こう!
+#pragma region プレイヤー方向を向こう !
 
-	//y軸周り
-	//float ZX = sqrt((velocity_.z * velocity_.z) + (velocity_.x * velocity_.x));
+	// y軸周り
+	// float ZX = sqrt((velocity_.z * velocity_.z) + (velocity_.x * velocity_.x));
 
 	world_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
-	//横方向の長さ
+	// 横方向の長さ
 	world_.translation_.y *= world_.rotation_.y;
 	// x軸周り
 	world_.rotation_.x = std::atan2(-velocity_.y, velocity_.z);
@@ -34,6 +35,37 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 };
 
 void EnemyBullet::Update() {
+
+#pragma region ホーミング
+
+	//敵の弾から自キャラのベクトル計算　(どっかしらでエラーになる)
+	Vector3 Eb = world_.translation_;
+	Vector3 Pp = player_->GetWorldPosition();
+
+	Vector3 toPlayer = Subtract(Eb, Pp);
+	// 敵の弾から自キャラのベクトル計算　(どっかしらでエラーになる)
+
+
+	toPlayer = dir(toPlayer.x, toPlayer.y, toPlayer.z);
+	velocity_ = dir(velocity_.x, velocity_.y, velocity_.z);
+
+	const float BulletSpeed = 100.0f;
+	velocity_ = Multiply(BulletSpeed, Lerp(velocity_, toPlayer, 120));
+
+	//ex1の奴
+	#pragma region プレイヤー方向を向こう !
+
+	// y軸周り
+	// float ZX = sqrt((velocity_.z * velocity_.z) + (velocity_.x * velocity_.x));
+
+	world_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	// 横方向の長さ
+	world_.translation_.y *= world_.rotation_.y;
+	// x軸周り
+	world_.rotation_.x = std::atan2(-velocity_.y, velocity_.z);
+#pragma endregion
+
+#pragma endregion
 	// 座標移動
 	world_.translation_.x -= velocity_.x;
 	world_.translation_.y -= velocity_.y;
