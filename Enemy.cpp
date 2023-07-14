@@ -1,11 +1,9 @@
-﻿
-#include "Enemy.h"
+﻿#include "Enemy.h"
 #include "ImGuiManager.h"
 #include <cassert>
 #include "calc.h"
 #include "Player.h"
 #include "GameScene.h"
-
 
 Enemy::~Enemy() {
 	/*

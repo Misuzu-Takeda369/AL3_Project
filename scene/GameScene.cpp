@@ -60,19 +60,21 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldProjection());
 
-	// 敵の初期化関連
-	LoadEnemyPopDate();
+	
 
 	skydome_->Initialize(modelSkydome_);
 	// プレイヤーの位置？を代入する？
 	railCamera_->Initialize({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f});
 
+	// 敵の初期化関連
+	LoadEnemyPopDate();
+	/*
 	for (Enemy* enemy : enemies_) {
 		enemy->SetPlayer(player_);
 		// 現在のゲームシーン
 		enemy->SetGameScene(this);
 	}
-
+	*/
 	// enemy->SetPlayer(player_);
 	// enemy->SetGameScene(this);
 
@@ -88,11 +90,14 @@ void GameScene::Update() {
 	player_->Update();
 	// enemy_->Update();
 	// 敵の呼び出しの更新
+
 	UpdateEnemyPopCommands();
 	// 敵の描写
+	//全部の敵の更新
 	for (Enemy* enemy : enemies_) {
 		enemy->Update();
 	}
+	
 
 #pragma region ですフラグでの敵の消滅
 
@@ -132,7 +137,8 @@ void GameScene::Update() {
 		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
-	} else {
+	} 
+	else {
 		// 描写に反映
 		viewProjection_.matView = railCamera_->GetViewProjection().matView;
 		viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
@@ -309,7 +315,9 @@ void GameScene::LoadEnemyPopDate() {
 }
 
 void GameScene::UpdateEnemyPopCommands() {
-	// 待機処理
+
+
+		// 待機処理
 	if (waitFlag) {
 		waitTimer--;
 		if (waitTimer <= 0) {
@@ -321,6 +329,7 @@ void GameScene::UpdateEnemyPopCommands() {
 
 	// 1行分の文字列を入れる変数
 	std::string line;
+
 
 	// コマンド実行(1セットの最後までループ)
 	while (getline(enemyPopCommands, line)) {
@@ -368,11 +377,12 @@ void GameScene::UpdateEnemyPopCommands() {
 
 			waitFlag = true;
 			waitTimer = waitTime;
-
 			// ループを抜ける(POP、WAITで1セットでwaitの最後まで行ったら抜ける)
 			break;
 		}
 	}
+
+
 }
 
 void GameScene::AddEnemy(Vector3 pos) {
@@ -380,11 +390,14 @@ void GameScene::AddEnemy(Vector3 pos) {
 	Enemy* enemy = new Enemy();
 	// 多分敵の初期化処理書き直し
 	enemy->Initialize(model_, pos);
+	//代入されたときの更新
+	enemy->Update();
 	enemy->SetPlayer(player_);
 	// 現在のゲームシーン
 	enemy->SetGameScene(this);
 	// enemy.push_buck(enemy);
 
+	
 	// プッシュ
 	enemies_.push_back(enemy);
 }
