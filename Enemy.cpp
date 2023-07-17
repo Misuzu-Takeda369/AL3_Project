@@ -23,7 +23,6 @@ void Enemy::Initialize(Model* model) {
 
 	worldTransform_.Initialize();
 
-	//enemyBullet_->SetPlayer(player_);
 
 	// 接近フェーズ初期化
 	ApproachInt();

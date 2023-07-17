@@ -81,6 +81,5 @@ private:
 	int32_t fireTimer_ = 0;
 
 	Player* player_ = nullptr;
-
 	EnemyBullet* enemyBullet_ = nullptr;
 };

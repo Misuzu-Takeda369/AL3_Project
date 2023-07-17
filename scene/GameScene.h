@@ -11,6 +11,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 
 /// <summary>
 /// ゲームシーン
@@ -65,6 +66,7 @@ private: // メンバ変数
 	//敵のデータ
 	Enemy* enemy_ = nullptr;
 
+	EnemyBullet* enemyBullet_ = nullptr;
 	// きゃめら
 	// デバッグカメラの挙動
 	bool isDebugCameraActive_ = false;
