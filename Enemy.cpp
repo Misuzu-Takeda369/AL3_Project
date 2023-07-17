@@ -1,8 +1,8 @@
 ﻿#include "Enemy.h"
 #include "ImGuiManager.h"
-#include <cassert>
-#include "calc.h"
 #include "Player.h"
+#include "calc.h"
+#include <cassert>
 
 Enemy::~Enemy() {
 	for (EnemyBullet* bullet : bullets_) {
@@ -23,7 +23,6 @@ void Enemy::Initialize(Model* model) {
 
 	worldTransform_.Initialize();
 
-
 	// 接近フェーズ初期化
 	ApproachInt();
 }
@@ -43,9 +42,7 @@ void Enemy::Update() {
 	worldTransform_.translation_.z += move.z;
 	*/
 
-	//Fire();
-
-
+	// Fire();
 
 	switch (phase_) {
 	case Enemy::Phase::Approach:
@@ -99,13 +96,13 @@ void Enemy::ApproachMove() {
 	}
 
 #pragma region 弾
-	//発射タイマーカウント(減らす)
+	// 発射タイマーカウント(減らす)
 	fireTimer_--;
-	//指定時間に達した時
+	// 指定時間に達した時
 	if (fireTimer_ < 0) {
-		//発射する
+		// 発射する
 		Fire();
-		//タイマーを戻す
+		// タイマーを戻す
 		fireTimer_ = kFireInterval;
 	}
 #pragma endregion
@@ -127,61 +124,52 @@ void Enemy::LeaveMove() {
 }
 
 void Enemy::Fire() {
-	
-		assert(player_);
-		// 弾の速度
-		const float kBulletSpeed = 1.0f;
+
+	assert(player_);
+	// 弾の速度
+	const float kBulletSpeed = 1.0f;
 	/*
-		Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
+	    Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
 	*/
-	   
-		//自ワールド　プレイヤーの位置を取得
-		Vector3 playerVelocity = player_->GetWorldPosition();
-		//敵のワールド　敵の位置を取得
-		Vector3 enemyVelocity = GetWorldPosition();
+
+	// 自ワールド　プレイヤーの位置を取得
+	Vector3 playerVelocity = player_->GetWorldPosition();
+	// 敵のワールド　敵の位置を取得
+	Vector3 enemyVelocity = GetWorldPosition();
 
 #pragma region ベクトル計算
-		//敵-自の差分ベクトル
-	    float peVelocityX = enemyVelocity.x - playerVelocity.x;
-	    float peVelocityY = enemyVelocity.y - playerVelocity.y;
-	    float peVelocityZ = enemyVelocity.z - playerVelocity.z;
-		
-	  
-#pragma endregion 
-		//正規化
-	    Vector3 Unk= dir(peVelocityX, peVelocityY, peVelocityZ);
-		//(正規化)計算してなぶち込む(ベクトルの長さを早さに合わせる)
+	// 敵-自の差分ベクトル
+	float peVelocityX = enemyVelocity.x - playerVelocity.x;
+	float peVelocityY = enemyVelocity.y - playerVelocity.y;
+	float peVelocityZ = enemyVelocity.z - playerVelocity.z;
 
-	    Vector3 clacvelocity = {
-			kBulletSpeed * Unk.x, 
-			kBulletSpeed * Unk.y, 
-			kBulletSpeed * Unk.z
-		};
-	    Vector3 velocity(clacvelocity);
+#pragma endregion
+	// 正規化
+	Vector3 Unk = dir(peVelocityX, peVelocityY, peVelocityZ);
+	//(正規化)計算してなぶち込む(ベクトルの長さを早さに合わせる)
 
-		EnemyBullet* newBullet = new EnemyBullet();
-	    newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+	Vector3 clacvelocity = {kBulletSpeed * Unk.x, kBulletSpeed * Unk.y, kBulletSpeed * Unk.z};
+	Vector3 velocity(clacvelocity);
 
-		// 弾を登録する
-		// bullet_ = newBullet;
-		bullets_.push_back(newBullet);
-	    
+	EnemyBullet* newBullet = new EnemyBullet();
+	newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+
+	// 弾を登録する
+	// bullet_ = newBullet;
+	newBullet->SetPlayer(player_);
+	bullets_.push_back(newBullet);
+	
 }
 
-void Enemy::ApproachInt() 
-{ 
-	fireTimer_ = kFireInterval;
-}
+void Enemy::ApproachInt() { fireTimer_ = kFireInterval; }
 
 Vector3 Enemy::GetWorldPosition() {
-	    // ワールドを入れる奴
-	    Vector3 worldPos;
-	    // ワールド行列の平行移動成分を取得(ワールド座標)
-	    worldPos.x = worldTransform_.matWorld_.m[3][0];
-	    worldPos.y = worldTransform_.matWorld_.m[3][1];
-	    worldPos.z = worldTransform_.matWorld_.m[3][2];
+	// ワールドを入れる奴
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
 
-	    return worldPos;
+	return worldPos;
 }
-
-

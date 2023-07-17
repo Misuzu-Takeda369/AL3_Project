@@ -7,6 +7,7 @@
 
 /// 前方宣言
 class Player;
+class Enemy;
 
 class EnemyBullet 
 {
@@ -52,4 +53,5 @@ private:
 	bool isDead_ = false;
 
 	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
 };
