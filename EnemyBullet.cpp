@@ -38,9 +38,9 @@ void EnemyBullet::Update() {
 
 #pragma region ホーミング
 
-	//敵の弾から自キャラのベクトル計算　(どっかしらでエラーになる)
+	// 敵の弾から自キャラのベクトル計算　(どっかしらでエラーになる)
 	Vector3 Eb = world_.translation_;
-	Vector3 Pp = player_->GetWorldPosition();
+	Vector3 Pp =player_->GetWorldPosition();
 
 	Vector3 toPlayer = Subtract(Eb, Pp);
 	// 敵の弾から自キャラのベクトル計算　(どっかしらでエラーになる)

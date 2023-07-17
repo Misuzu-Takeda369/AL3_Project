@@ -23,6 +23,8 @@ void Enemy::Initialize(Model* model) {
 
 	worldTransform_.Initialize();
 
+	//enemyBullet_->SetPlayer(player_);
+
 	// 接近フェーズ初期化
 	ApproachInt();
 }
@@ -164,7 +166,7 @@ void Enemy::Fire() {
 		// 弾を登録する
 		// bullet_ = newBullet;
 		bullets_.push_back(newBullet);
-	
+	    
 }
 
 void Enemy::ApproachInt() 

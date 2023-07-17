@@ -7,6 +7,7 @@
 
 //前方宣言
 class Player;
+class EnemyBullet;
 
 class Enemy {
 
@@ -80,4 +81,6 @@ private:
 	int32_t fireTimer_ = 0;
 
 	Player* player_ = nullptr;
+
+	EnemyBullet* enemyBullet_ = nullptr;
 };
