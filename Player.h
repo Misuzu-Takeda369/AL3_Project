@@ -4,10 +4,11 @@
 #include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Collider.h"
 #include <list>
 
 
-class Player {
+class Player: public Collider {
 public:
 	/// <summary>
 	/// デストラクタ
@@ -30,10 +31,11 @@ public:
 
 	void Attack();
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 
 	//当たったことが伝わったらこっちで処理する関数
-	void OnCollision();
+	//void OnCollision();継承
+	void OnCollision() override;
 
 	// 弾リストのげったー
 	const std::list<PlayerBullet*>& GetBullet() { return bullets_; };
