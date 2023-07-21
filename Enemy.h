@@ -4,6 +4,7 @@
 #include "WorldTransform.h"
 #include <list>
 #include "EnemyBullet.h"
+#include "Collider.h"
 
 //前方宣言
 class Player;

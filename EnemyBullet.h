@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Collider.h"
 
 class EnemyBullet : public Collider
 {
@@ -43,4 +44,5 @@ private:
 	int32_t deathTimer_ = kLifeTime;
 	// 消えるフラグ
 	bool isDead_ = false;
+	float Radius_ = 10.0f;
 };

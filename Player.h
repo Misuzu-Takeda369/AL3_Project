@@ -57,4 +57,6 @@ private:
 	//弾
 	//PlayerBullet* bullet_ = nullptr;
 	std::list<PlayerBullet*> bullets_;
+
+	float Radius_ = 10.0f;
 };

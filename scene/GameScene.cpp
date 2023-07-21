@@ -119,61 +119,28 @@ void GameScene::Draw() {
 
 
 void GameScene::CheckAllCollisions() {
-	//2つのぶつの座標
-	Vector3 posA, posB;
+	
 
-	//playerの弾リストの取得
+	// playerの弾リストの取得
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullet();
-	//enemyの弾リストの取得
+	// enemyの弾リストの取得
 	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullet();
 
 #pragma region プレイヤーと敵の弾当たり判定
-	// 自キャラ座標
-	posA = player_->GetWorldPosition();
+	
 
 	// プレイヤーと弾すべての当たり判定を判断する
 	for (EnemyBullet* bullet : enemyBullets) {
-		posB = bullet->GetWorldPosition();
-
-
-		// 衝突判定
-		float MixAB = ((posB.x - posA.x) * (posB.x - posA.x)) 
-			+((posB.y - posA.y) * (posB.y - posA.y))
-			+((posB.z - posA.z) * (posB.z - posA.z));
 		
-		// 半径(仮)
-		const float RadishMix = 20.0f;
-		// 当たってるか否か
-		if (MixAB <= RadishMix) {
-			player_->OnCollision();
-
-			bullet->OnCollision();
-		}
-
+		CheckCollisionPair(player_, bullet);
 	}
 #pragma endregion
 
 #pragma region プレイヤー弾と敵当たり判定
-	// 敵座標
-	posA = enemy_->GetWorldPosition();
 
 	// プレイヤーと弾すべての当たり判定を判断する
 	for (PlayerBullet* bullet : playerBullets) {
-		posB = bullet->GetWorldPosition();
-
-		// 衝突判定
-		float MixAB = ((posB.x - posA.x) * (posB.x - posA.x)) +
-		              ((posB.y - posA.y) * (posB.y - posA.y)) +
-		              ((posB.z - posA.z) * (posB.z - posA.z));
-
-		// 半径(仮)
-		const float RadishMix = 20.0f;
-		// 当たってるか否か
-		if (MixAB <= RadishMix) {
-			enemy_->OnCollision();
-
-			bullet->OnCollision();
-		}
+		CheckCollisionPair(player_, bullet);
 	}
 #pragma endregion
 
@@ -181,26 +148,36 @@ void GameScene::CheckAllCollisions() {
 	
 	for (PlayerBullet* bulletP : playerBullets) {
 	
-		posA = bulletP->GetWorldPosition();
+		
 		for (EnemyBullet* bullet : enemyBullets) {
-			posB = bullet->GetWorldPosition();
 
-			// 衝突判定
-			float MixAB = ((posB.x - posA.x) * (posB.x - posA.x)) +
-			              ((posB.y - posA.y) * (posB.y - posA.y)) +
-			              ((posB.z - posA.z) * (posB.z - posA.z));
-
-			// 半径(仮)
-			const float RadishMix = 20.0f;
-			// 当たってるか否か
-			if (MixAB <= RadishMix) {
-				bulletP->OnCollision();
-
-				bullet->OnCollision();
-			}
-
+			CheckCollisionPair(bulletP, bullet);
 		}
+		
 	}
+#pragma endregion
+
+}
+
+
+void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB) 
+{
+	Vector3 posA = colliderA->GetWorldPosition();
+	Vector3 posB = colliderB->GetWorldPosition();
+
+	// 衝突判定
+	float MixAB = ((posB.x - posA.x) * (posB.x - posA.x)) +
+	              ((posB.y - posA.y) * (posB.y - posA.y)) + ((posB.z - posA.z) * (posB.z - posA.z));
+
+	// 半径(仮)
+	const float RadishMix = 20.0f;
+	// 当たってるか否か
+	if (MixAB <= RadishMix) {
+		colliderA->OnCollision();
+		colliderB->OnCollision();
+	}
+	
+	
 #pragma endregion
 
 }

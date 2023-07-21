@@ -12,6 +12,7 @@
 #include "WorldTransform.h"
 #include "Enemy.h"
 
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -49,6 +50,14 @@ public: // メンバ関数
 	void CheckAllCollisions();
 
 private: // メンバ変数
+
+	/// <summary>
+	/// 2つのコライダーで当たったかどうか判断する
+	/// </summary>
+	/// <param name="colliderA"></param>
+	/// <param name="colliderB"></param>
+	void CheckCollisionPair(Collider* colliderA, Collider* colliderB);
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
