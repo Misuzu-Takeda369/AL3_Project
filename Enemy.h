@@ -8,7 +8,7 @@
 //前方宣言
 class Player;
 
-class Enemy {
+class Enemy : public Collider{
 
 public:
 
@@ -52,11 +52,9 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; };
 
-	//ワールド座標
-	Vector3 GetWorldPosition();
+	void OnCollision() override;
 
-	// 当たったことが伝わったらこっちで処理する関数
-	void OnCollision();
+	Vector3 GetWorldPosition() override;
 
 	//弾リストのげったー
 	const std::list<EnemyBullet*>& GetBullet() { return bullets_; };

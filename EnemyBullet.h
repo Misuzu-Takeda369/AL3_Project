@@ -4,7 +4,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-class EnemyBullet 
+class EnemyBullet : public Collider
 {
 public:
 	/// <summary>
@@ -22,9 +22,9 @@ public:
 	bool IsDead() const { return isDead_; };
 
 	// 当たったことが伝わったらこっちで処理する関数
-	void OnCollision();
+	void OnCollision() override;
 
-	Vector3 GetWorldPosition();
+	Vector3 GetWorldPosition() override;
 
 private:
 	WorldTransform world_;

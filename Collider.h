@@ -3,7 +3,7 @@
 #include "WorldTransform.h"
 
 /// <summary>
-/// 当たり判定の基底クラス
+/// 当たり判定の基底クラス(当たり判定関連の奴)
 /// </summary>
 
 class Collider {
