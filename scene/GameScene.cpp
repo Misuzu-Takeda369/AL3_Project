@@ -137,23 +137,21 @@ void GameScene::CheckAllCollisions() {
 #pragma endregion
 
 #pragma region プレイヤー弾と敵当たり判定
-
 	// プレイヤーと弾すべての当たり判定を判断する
 	for (PlayerBullet* bullet : playerBullets) {
-		CheckCollisionPair(player_, bullet);
+		CheckCollisionPair(enemy_, bullet);
 	}
+	
 #pragma endregion
 
 #pragma region プレイヤー弾と敵の弾当たり判定
 	
 	for (PlayerBullet* bulletP : playerBullets) {
-	
-		
+
 		for (EnemyBullet* bullet : enemyBullets) {
 
 			CheckCollisionPair(bulletP, bullet);
 		}
-		
 	}
 #pragma endregion
 
