@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+//必要忘れるな!!
+#include <cstdint>
 
 /// <summary>
 /// 当たり判定の基底クラス(当たり判定関連の奴)
@@ -8,8 +10,8 @@
 
 class Collider {
 
-public:
 
+public:
 	/// <summary>
 	/// ゲッター
 	/// </summary>
@@ -21,9 +23,7 @@ public:
 	/// </summary>
 	/// <param name="r"></param>
 	/// <returns></returns>
-	float SetRadius(float& r) { 
-		radius_ = r;
-	};
+	float SetRadius(float& r) { radius_ = r; };
 
 	/// <summary>
 	/// 当たり判定
@@ -36,32 +36,33 @@ public:
 	/// 衝突属性(能動側)の取得
 	/// </summary>
 	/// <returns></returns>
-	uint32_t GetCollistionAttribute() { return collistionAttribute_; };
+	uint32_t GetCollistionAttribute() { return collistionAttribute_; }
 
 	/// <summary>
 	/// 衝突属性(能動側)の設定
 	/// </summary>
 	/// <param name="a"></param>
 	/// <returns></returns>
-	uint32_t SetCollistionAttribute(uint32_t sttbute) { collistionAttribute_ = sttbute; };
+	void SetCollistionAttribute(uint32_t sttbute) { collistionAttribute_ = sttbute; }
 
 	/// <summary>
 	/// 衝突属性(受動側)の取得
 	/// </summary>
 	/// <returns></returns>
-	uint32_t GetCollistionMask() { return collistionMask_; };
+	uint32_t GetCollistionMask() { return collistionMask_; }
 
 	/// <summary>
 	/// 衝突属性(受動側)の設定
 	/// </summary>
 	/// <param name="Mask"></param>
 	/// <returns></returns>
-	uint32_t SetCollistionMask(uint32_t Mask) { collistionMask_ = Mask;  };
+	void SetCollistionMask(uint32_t Mask) { collistionMask_ = Mask; }
 
-private:
+
+	private:
 	float radius_ = 1.0f;
 
-	//衝突判定プレイヤー側
+	// 衝突判定プレイヤー側
 	uint32_t collistionAttribute_ = 0xffffffff;
 
 	// 衝突判定エネミー側

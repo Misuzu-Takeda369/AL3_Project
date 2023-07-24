@@ -169,6 +169,17 @@ void GameScene::CheckAllCollisions() {
 
 void GameScene::CheckCollisionPair(Collider* colliderA, Collider* colliderB) 
 {
+#pragma region 属性判定
+
+	//属性フィルター
+	if ((colliderA->GetCollistionAttribute() != colliderB->GetCollistionMask()) ||
+	    (colliderB->GetCollistionAttribute() != colliderA->GetCollistionMask())) {
+
+		return;
+	}
+#pragma endregion
+
+#pragma region 当たり判定
 	Vector3 posA = colliderA->GetWorldPosition();
 	Vector3 posB = colliderB->GetWorldPosition();
 
