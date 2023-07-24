@@ -126,6 +126,17 @@ void GameScene::CheckAllCollisions() {
 	// enemyの弾リストの取得
 	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullet();
 
+	//コライダーの変数
+	std::list<Collider*> colliders_;
+	//コライダーをリストに入れる
+	colliders_.push_back(player_);
+	colliders_.push_back(enemy_);
+
+	// 自分の弾すべて
+	for (PlayerBullet* bullet : bullets_) {
+
+		colliders_.push_back(bullet);
+	}
 }
 
 
