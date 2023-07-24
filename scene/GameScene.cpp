@@ -133,10 +133,37 @@ void GameScene::CheckAllCollisions() {
 	colliders_.push_back(enemy_);
 
 	// 自分の弾すべて
-	for (PlayerBullet* bullet : bullets_) {
+	for (PlayerBullet* bulletP : playerBullets) {
 
-		colliders_.push_back(bullet);
+		colliders_.push_back(bulletP);
 	}
+	//敵の弾のすべて
+	for (EnemyBullet* bulletE : enemyBullets) {
+
+		colliders_.push_back(bulletE);
+	}
+
+	//リスト内のすべてを総当たり
+	std::list<Collider*>::iterator itrA = colliders_.begin();
+	for (; itrA != colliders_.end(); ++ itrA) {
+		//イテレータ(反復子)AからコライダーAを貰う
+		Collider* A_ = *itrA;
+		//イテレータBもAの要素から作る
+		std::list<Collider*>::iterator itrB = itrA;
+		itrB++;
+		for (; itrB != colliders_.end(); ++itrB) {
+		
+			// イテレータ(反復子)BからコライダーBを貰う
+			Collider* B_ = *itrB;
+
+			//コライダーAとコライダーBの当たり判定をする
+			CheckCollisionPair(A_, B_);
+
+			//枠組み作らなくてもいいのは楽だがすぐ消えちゃう(分別が出来てない？)
+		}
+	}
+
+	
 }
 
 
