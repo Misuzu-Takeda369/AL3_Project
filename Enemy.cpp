@@ -3,6 +3,7 @@
 #include <cassert>
 #include "calc.h"
 #include "Player.h"
+#include "CollistionConfig.h"
 
 Enemy::~Enemy() {
 	 for (EnemyBullet* bullet : bullets_) {
@@ -24,6 +25,12 @@ void Enemy::Initialize(Model* model) {
 
 	// 接近フェーズ初期化
 	ApproachInt();
+
+	// 敵の属性の設定
+	SetCollistionAttribute(kConllistionAttributeEnemy);
+	// 判定対象の属性を設定する
+	SetCollistionMask(kConllistionAttributePlayer);
+
 }
 
 void Enemy::Update() {

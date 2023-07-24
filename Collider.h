@@ -32,7 +32,38 @@ public:
 
 	virtual Vector3 GetWorldPosition();
 
+	/// <summary>
+	/// 衝突属性(能動側)の取得
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetCollistionAttribute() { return collistionAttribute_; };
+
+	/// <summary>
+	/// 衝突属性(能動側)の設定
+	/// </summary>
+	/// <param name="a"></param>
+	/// <returns></returns>
+	uint32_t SetCollistionAttribute(uint32_t sttbute) { collistionAttribute_ = sttbute; };
+
+	/// <summary>
+	/// 衝突属性(受動側)の取得
+	/// </summary>
+	/// <returns></returns>
+	uint32_t GetCollistionMask() { return collistionMask_; };
+
+	/// <summary>
+	/// 衝突属性(受動側)の設定
+	/// </summary>
+	/// <param name="Mask"></param>
+	/// <returns></returns>
+	uint32_t SetCollistionMask(uint32_t Mask) { collistionMask_ = Mask;  };
 
 private:
 	float radius_ = 1.0f;
+
+	//衝突判定プレイヤー側
+	uint32_t collistionAttribute_ = 0xffffffff;
+
+	// 衝突判定エネミー側
+	uint32_t collistionMask_ = 0xffffffff;
 };

@@ -2,6 +2,7 @@
 #include "ImGuiManager.h"
 #include <cassert>
 #include "calc.h"
+#include "CollistionConfig.h"
 
 Player::~Player() {
 	// 弾のデストラクタ
@@ -25,6 +26,11 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 	// シングルトンインスタンス取得
 	input_ = Input::GetInstance();
+
+	//プレイヤーの属性の設定
+	SetCollistionAttribute(kConllistionAttributePlayer);
+	//判定対象の属性を設定する
+	SetCollistionMask(kConllistionAttributeEnemy);
 };
 
 void Player::Update() {

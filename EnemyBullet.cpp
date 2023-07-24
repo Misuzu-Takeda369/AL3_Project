@@ -1,5 +1,6 @@
 ﻿#include "EnemyBullet.h"
 #include <cassert>
+#include "CollistionConfig.h"
 
 void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 
@@ -15,6 +16,12 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	// 初期化と初期位置を貰う
 	world_.Initialize();
 	world_.translation_ = position;
+
+
+	// 敵の属性の設定
+	SetCollistionAttribute(kConllistionAttributeEnemy);
+	// 判定対象の属性を設定する
+	SetCollistionMask(kConllistionAttributePlayer);
 };
 
 void EnemyBullet::Update() {

@@ -1,4 +1,5 @@
 ﻿#include "PlayerBullet.h"
+#include "CollistionConfig.h"
 
 #include <cassert>
 void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
@@ -15,6 +16,11 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	//初期化と初期位置を貰う
 	world_.Initialize();
 	world_.translation_ = position;
+
+	// プレイヤーの属性の設定
+	SetCollistionAttribute(kConllistionAttributePlayer);
+	// 判定対象の属性を設定する
+	SetCollistionMask(kConllistionAttributeEnemy);
 };
 
 void PlayerBullet::Update() 
