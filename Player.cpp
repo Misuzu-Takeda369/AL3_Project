@@ -282,7 +282,7 @@ void Player::ScreenToWorld(const ViewProjection viewprojection) {
 	posFar = Transform(posFar, matInverseVPV);
 
 	Vector3 mouseDirection = Subtract(posFar, posNear);
-	mouseDirection = dir(mouseDirection);
+	mouseDirection = dir(mouseDirection.x, mouseDirection.y, mouseDirection.z	);
 	const float kDistanceTestObject = 10.0f;
 	worldTransform3DReticle_.translation_ =
 	    Add(Multiply(kDistanceTestObject, mouseDirection), posNear);
