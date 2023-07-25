@@ -260,78 +260,47 @@ void Player::WorldtoScreen(const ViewProjection viewprojection) {
 }
 
 void Player::ScreenToWorld(const ViewProjection viewprojection) {
-	/// 1.マウス座標を取得
-	// マウスの座標(スクリーン座標)を取得する
+	
+	// マウスカーソル
 	POINT mousePosition;
-	// WindowsAPI側の関数　(スクリーン座標=クライアントエリア座標)
 	GetCursorPos(&mousePosition);
-
-	/// 2.マウス座標を2Dレティクルのスプライトに代入する
-	// クライアントエリア座標に変換する
-	// これはなんの画面なのかを伝えるHWND(立ち上がったウインドー画面にある情報を伝える？)
 	HWND hwnd = WinApp::GetInstance()->GetHwnd();
-	// 使いやすいように描写範囲内に写るように調整
 	ScreenToClient(hwnd, &mousePosition);
 
-	// マウス座標を2Dレティクルのスプライト座標に代入
-	sprite2DReticle_->SetPosition(Vector2(float(mousePosition.x), float(mousePosition.y)));
+	Vector2 positionReticle;
+	positionReticle.x = float(mousePosition.x);
+	positionReticle.y = float(mousePosition.y);
+	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
-	/// 3.ビュー行列と射影行列とビューポート行列の合成行列の計算
-	ViewProjection viewProjection = viewprojection;
-
-	// ビューポート行列
-	Matrix4x4 matViewport = MakeVieportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight);
-
-	// ビュー、プロジェクション、ビューポートの合成行列
-	Matrix4x4 matVPV = viewProjection.matView * viewProjection.matProjection * matViewport;
-
-	/// 4.合成行列の逆行列を計算する
-	// 上の計算の逆行列
+	Matrix4x4 matVPV = matViewProjectionViewport;
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
 
-	/// 5.ニアとファー
-	// スクリーン座標(のちのためにファーとニアも作っておく)
-	Vector3 posNear = Vector3(float(mousePosition.x), float(mousePosition.y), 0.0f);
-	Vector3 posFar = Vector3(float(mousePosition.x), float(mousePosition.y), 1.0f);
+	Vector3 posNear = Vector3(float(mousePosition.x), float(mousePosition.y), 0);
+	Vector3 posFar = Vector3(float(mousePosition.x), float(mousePosition.y), 1);
 
-	// スクリーン座標からワールド座標
 	posNear = Transform(posNear, matInverseVPV);
 	posFar = Transform(posFar, matInverseVPV);
 
-	/// 6.マウス前方の計算と3Dレティクルの配置
-	// マウスレイの方向
 	Vector3 mouseDirection = Subtract(posFar, posNear);
-	// 正規化する
-	mouseDirection = dir(mouseDirection.x, mouseDirection.y, mouseDirection.z);
-	// カメラから照準オブジェクトの距離 (適当な数？)
-	const float kDistanceTestObject = 100.0f;
-
-	// 掛け算してから足し算
+	mouseDirection = Normalize(mouseDirection);
+	const float kDistanceTestObject = 10.0f;
 	worldTransform3DReticle_.translation_ =
 	    Add(Multiply(kDistanceTestObject, mouseDirection), posNear);
 
-	// worldTransform3DReticle_の更新と転送
-	//   行列更新
-	worldTransform3DReticle_.UpdateMatrix();
-
-	// 行列転送
+	// 行列更新
 	worldTransform3DReticle_.matWorld_ = MakeAffineMatrix(
 	    worldTransform3DReticle_.scale_, worldTransform3DReticle_.rotation_,
 	    worldTransform3DReticle_.translation_);
+	// 行列転送
+	worldTransform3DReticle_.TransferMatrix();
 
-#pragma region ImGui
-	// 窓
-	ImGui::SetNextWindowPos({100, 100});
-	ImGui::SetNextWindowSize({300, 100});
-	// プレイヤー座標表示
-	ImGui::Begin("Player2DReticle");
-	ImGui::Text("2DReticle:(%f,%f)", float(mousePosition.x), float(mousePosition.y));
-	ImGui::Text("Near:(%.2f,%.2f,%.2f)", posNear.x, posNear.y, posNear.z);
-	ImGui::Text("Far:(%.2f,%.2f,%.2f)", posFar.x, posFar.y, posFar.z);
+	// デバッグ文字
+	ImGui::Begin("Player");
+	ImGui::Text("2DReticle:(%f, %f)", positionReticle.x, positionReticle.y);
+	ImGui::Text("Near:(%+.2f, %+.2f, %+.2f)", posNear.x, posNear.y, posNear.z);
+	ImGui::Text("Far:(%+.2f, %+.2f, %+.2f)", posFar.x, posFar.y, posFar.z);
 	ImGui::Text(
-	    "3DReticle:(%.2f,%.2f,%.2f)", worldTransform3DReticle_.translation_.x,
+	    "3DReticle:(%+.2f, %+.2f, %+.2f)", worldTransform3DReticle_.translation_.x,
 	    worldTransform3DReticle_.translation_.y, worldTransform3DReticle_.translation_.z);
-
 	ImGui::End();
-#pragma endregion
 }
