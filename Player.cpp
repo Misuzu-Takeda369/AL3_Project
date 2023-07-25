@@ -272,7 +272,14 @@ void Player::ScreenToWorld(const ViewProjection viewprojection) {
 	positionReticle.y = float(mousePosition.y);
 	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
-	Matrix4x4 matVPV = matViewProjectionViewport;
+	/// 3.ビュー行列と射影行列とビューポート行列の合成行列の計算
+	ViewProjection viewProjection = viewprojection;
+
+	// ビューポート行列
+	Matrix4x4 matViewport = MakeVieportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight);
+
+	// ビュー、プロジェクション、ビューポートの合成行列
+	Matrix4x4 matVPV = viewProjection.matView * viewProjection.matProjection * matViewport;
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
 
 	Vector3 posNear = Vector3(float(mousePosition.x), float(mousePosition.y), 0);
