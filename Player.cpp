@@ -88,8 +88,8 @@ void Player::Update(ViewProjection viewprojection) {
 #pragma region 移動の計算
 	// 制限
 	// 制限座標
-	const float kMoveLimiteX = 20.0f;
-	const float kMoveLimiteY = 20.0f;
+	const float kMoveLimiteX = 5.0f;
+	const float kMoveLimiteY = 5.0f;
 	// 範囲処理
 	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimiteX);
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimiteX);

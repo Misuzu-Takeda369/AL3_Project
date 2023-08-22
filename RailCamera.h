@@ -29,7 +29,7 @@ public:
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 	const WorldTransform& GetWorldProjection() { return worldTransform_; };
 
-	//ViewProjection& GetViewPro
+	
 
 private:
 
