@@ -182,7 +182,7 @@ void Player::Attack() {
 
 		//	自弾の生成	
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, cameraWorld, velocity);
+		newBullet->Initialize(model_, GetWorldPosition(), velocity);
 
 		// 弾を登録する
 		// bullet_ = newBullet;
