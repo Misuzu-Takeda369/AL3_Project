@@ -1,22 +1,20 @@
 ﻿#include "RailCamera.h"
 #include "ImGuiManager.h"
 
-void RailCamera::Initialize(Vector3 trans, Vector3 rot) { 
+void RailCamera::Initialize(Vector3 trans, Vector3 rot) {
 
-	//ワールドトランスフォームの引数
+	// ワールドトランスフォームの引数
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = trans;
 	worldTransform_.rotation_ = rot;
 
-	//モデルを描写するわけではないのでワールドトランスフォームの初期化を書かなくて良い。
+	// モデルを描写するわけではないのでワールドトランスフォームの初期化を書かなくて良い。
 
-	//ビュープロジェクションの初期化
+	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 }
 
-void RailCamera::Update() 
-{
-
+void RailCamera::Update() {
 
 #pragma region ImGui
 	// 窓
@@ -39,36 +37,49 @@ void RailCamera::Update()
 #pragma endregion
 
 #pragma region 移動処理
-	//アフェインに全部まとめるか(次がworldTransform_.matWorldなのでその辺?)
-	Vector3 move = {0.0f,0.0f,0.0f};
-	Vector3 rot = {0.0f,0.001f,0.0f};
+	// アフェインに全部まとめるか(次がworldTransform_.matWorldなのでその辺?)
+	Vector3 move = {0.0f, -0.01f, 0.0f};
+	Vector3 rot = {0.00f, 0.0f, 0.0f};
 
-	
+	// 大きさ
+	worldTransform_.scale_.x +=0.0f;
+	worldTransform_.scale_.y += 0;
+	worldTransform_.scale_.z += 0;
+
 	// 移動
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
-	
-	//角度
+
+	// 角度
 	worldTransform_.rotation_.x += rot.x;
 	worldTransform_.rotation_.y += rot.y;
 	worldTransform_.rotation_.z += rot.z;
-
-	
 
 #pragma endregion
 
 	// 行列更新(ここが動かない原因知らん)
 	worldTransform_.UpdateMatrix();
-	//ビュープロジェクションは逆行列
+
+	//// 行列更新
+	//worldTransform_.matWorld_ = MakeAffineMatrix(
+	//    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	// ビュープロジェクションは逆行列
 	viewProjection_.matView = Inverse(worldTransform_.matWorld_);
-
-
-	
-
 }
 
-void RailCamera::Draw()
-{ 
-	//model_->Draw(worldTransform_, viewProjection_);
+void RailCamera::Draw() {
+	// model_->Draw(worldTransform_, viewProjection_);
 }
+
+/*
+Vector3 RailCamera::GetWorldPosition() 
+{ //ワールドを入れる奴
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+	return worldPos;
+}
+*/

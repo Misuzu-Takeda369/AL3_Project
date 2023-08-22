@@ -108,7 +108,7 @@ void Player::Update(ViewProjection viewprojection) {
 	    worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
 #pragma endregion
-
+	
 	// 攻撃処理呼び出し
 	Attack();
 
@@ -165,9 +165,14 @@ void Player::Attack() {
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
 
+		//カメラ文？
+		Vector3 cameraWorld = {0.1f,0.01f,0.0f};
+			
+		//レティクル関連
 		Vector3 ReticleVelocity;
 
 		ReticleVelocity = Subtract(worldTransform3DReticle_.translation_,worldTransform_.translation_);
+
 		ReticleVelocity = dir(ReticleVelocity.x, ReticleVelocity.y, ReticleVelocity.z);
 		ReticleVelocity = Multiply(kBulletSpeed, ReticleVelocity);
 
@@ -175,8 +180,9 @@ void Player::Attack() {
 		// 速度のベクトルを自機の向きに合わせて回転する
 		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
 
+		//	自弾の生成	
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, GetWorldPosition(), velocity);
+		newBullet->Initialize(model_, cameraWorld, velocity);
 
 		// 弾を登録する
 		// bullet_ = newBullet;

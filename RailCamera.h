@@ -3,10 +3,8 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
-class RailCamera 
-{
+class RailCamera {
 public:
-
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -29,15 +27,16 @@ public:
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 	const WorldTransform& GetWorldProjection() { return worldTransform_; };
 
-	
+	/// <summary>
+	/// ワールド行列に変換する関数
+	/// </summary>
+	/// <returns></returns>
+	//Vector3 GetWorldPosition();
 
 private:
-
 	/// ワールド変換データ
 	WorldTransform worldTransform_;
 
 	/// ビュープロジェクション(この子は普段カメラに渡していたが今回はこの子自体がカメラなのでここに作成)
 	ViewProjection viewProjection_;
-
-
 };

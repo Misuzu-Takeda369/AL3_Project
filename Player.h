@@ -5,6 +5,7 @@
 #include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+//#include "RailCamera.h"
 #include <list>
 
 
@@ -63,6 +64,9 @@ public:
 private:
 	// ワールドトランスフォーム(プレイヤーに移動するカメラ個体ごと)
 	WorldTransform worldTransform_;
+
+	//レールカメラ(ポジション調整用)
+	//RailCamera* railCamera_ = nullptr;
 
 	// モデル
 	Model* model_ = nullptr;
