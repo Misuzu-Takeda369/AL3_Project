@@ -166,7 +166,7 @@ void Player::Attack() {
 		Vector3 velocity(0.0f, 0.0f, kBulletSpeed);
 
 		//カメラ文？
-		Vector3 cameraWorld = {0.1f,0.01f,0.0f};
+		//Vector3 cameraWorld = {0.1f,0.01f,0.0f};
 			
 		//レティクル関連
 		Vector3 ReticleVelocity;
