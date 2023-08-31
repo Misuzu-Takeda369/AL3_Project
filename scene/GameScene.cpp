@@ -32,13 +32,14 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	textureHandle_ = TextureManager::Load("sample.png");
+	textureHandle_ = TextureManager::Load("PlayerIm.png");
 
 	//レティクルの画像読み込む
 	TextureManager::Load("target.png");
 
 	// モデルを作りだす
-	model_ = Model::Create();
+	//model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("Player", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	// ビュープロジェクション初期化(ゲーム共通カメラ)
