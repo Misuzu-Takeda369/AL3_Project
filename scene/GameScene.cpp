@@ -62,7 +62,7 @@ void GameScene::Initialize() {
 	// 初期化
 	// GameSceneの方でモデル読み込んでいるため
 	// 自キャラとレールカメラの親子関係を結ぶ
-	Vector3 playerPosition(0, 0, 10);
+	Vector3 playerPosition(0, 0, 5);
 	player_->Initialize(model_, textureHandle_, playerPosition);
 	player_->SetParent(&railCamera_->GetWorldProjection());
 
