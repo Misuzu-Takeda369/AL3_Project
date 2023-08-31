@@ -205,7 +205,7 @@ void Player::SetParent(const WorldTransform* parent) {
 void Player::PtoReticleCalc()
 {
 	//自機から3Dレティクルの距離の変数
-	const float kDistanceplayerTo3DReticle = 10.0f;
+	const float kDistanceplayerTo3DReticle = 80.0f;
 
 	//回転の処理
 	//自機から3dレティクルへの補完(z向き)
@@ -219,7 +219,7 @@ void Player::PtoReticleCalc()
 	///多分3Dレティクル
 	//３Dレティクルの座標を設定 ここで全体の総括
 	//３Dレティクルのワールド座標
-	worldTransform3DReticle_.translation_= GetWorldPosition() + ;
+	worldTransform3DReticle_.translation_= GetWorldPosition();
 	//回転した分の位置を代入
 	worldTransform3DReticle_.translation_ = {
 	    worldTransform3DReticle_.translation_.x + offset.x,
