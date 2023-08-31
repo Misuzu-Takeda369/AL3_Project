@@ -40,6 +40,9 @@ void GameScene::Initialize() {
 	// モデルを作りだす
 	//model_ = Model::Create();
 	model_ = Model::CreateFromOBJ("Player", true);
+
+	Enemymodel_ = Model::CreateFromOBJ("Enemy", true);
+
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	// ビュープロジェクション初期化(ゲーム共通カメラ)
@@ -383,7 +386,7 @@ void GameScene::AddEnemy(Vector3 pos) {
 	// 初期化処理関連
 	Enemy* enemy = new Enemy();
 	// 多分敵の初期化処理書き直し
-	enemy->Initialize(model_, pos);
+	enemy->Initialize(Enemymodel_, pos);
 	enemy->SetPlayer(player_);
 	// 現在のゲームシーン
 	enemy->SetGameScene(this);

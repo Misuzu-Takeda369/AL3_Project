@@ -90,6 +90,8 @@ private: // メンバ変数
 	// スカイドーム用モデル
 	Model* modelSkydome_ = 0;
 
+	Model* Enemymodel_ = nullptr;
+
 	// ビュープロジェクション(ゲーム共通カメラ)
 	ViewProjection viewProjection_;
 	/// <summary>

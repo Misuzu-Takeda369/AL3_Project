@@ -20,7 +20,7 @@ void Enemy::Initialize(Model* model, Vector3 pos) {
 	assert(model);
 	// 外から貰ってきたデータの受け渡し
 	model_ = model;
-	textureHandle_ = TextureManager::Load("Pbase.png");
+	textureHandle_ = TextureManager::Load("EnemyIm.png");
 
 	//  ワールドトランスフォーム初期化(プレイヤーに移動するカメラ個体ごと)
 	worldTransform_.translation_ = {pos.x, pos.y, pos.z};
@@ -200,4 +200,7 @@ Vector3 Enemy::GetWorldPosition() {
 }
 
 // 当たったことが伝わったらこっちで処理する関数
-void Enemy::OnCollision() { isDead_ = true; }
+void Enemy::OnCollision() 
+{ 
+	isDead_ = true; 
+}
